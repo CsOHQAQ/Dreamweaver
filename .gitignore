@@ -1,0 +1,10 @@
+/Assembly-CSharp.csproj
+/Assembly-CSharp-Editor.csproj
+/Assembly-CSharp-Editor-firstpass.csproj
+/*.csproj
+/Temp
+/Logs
+/Library
+/obj
+/.vs
+/Assets/Resources/Font/SmileySans-Oblique SDF.asset
