@@ -2,26 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : BaseControllable
 {
 
     public float acclerate;
     public float MaxSpeed;
 
     bool isMoving;
-    Rigidbody rb;
     Vector2 movingDirection = Vector2.zero;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-
-    }
-
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
+        base.Update();
+        if (!isControlled) return;
+
         UpdateMovingState();
 
         if (movingDirection != Vector2.zero)
@@ -29,11 +24,6 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Moving!");
             OnMove();
         }
-        else
-        {
-
-        }
-
     }
 
     void UpdateMovingState()
@@ -75,6 +65,4 @@ public class PlayerController : MonoBehaviour
      {
         rb.AddForce(new Vector3(0,300, 0));
      }
-
-
 }
