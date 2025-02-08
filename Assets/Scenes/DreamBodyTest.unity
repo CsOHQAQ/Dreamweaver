@@ -496,7 +496,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71632d889a28f2041b987b02f21d3001, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isControlled: 1
+  isControlled: 0
+  rb: {fileID: 0}
   acclerate: 1
   MaxSpeed: 10
 --- !u!54 &1790242546
@@ -521,7 +522,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -653,7 +654,7 @@ PrefabInstance:
     - target: {fileID: 1090821684460734965, guid: b0567e964f9493645b75670d23b1a10e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.33
       objectReference: {fileID: 0}
     - target: {fileID: 1090821684460734965, guid: b0567e964f9493645b75670d23b1a10e,
         type: 3}
@@ -694,6 +695,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5650010949408198391, guid: b0567e964f9493645b75670d23b1a10e,
+        type: 3}
+      propertyPath: MaxSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5650010949408198391, guid: b0567e964f9493645b75670d23b1a10e,
+        type: 3}
+      propertyPath: Acclerate
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
