@@ -17,7 +17,7 @@ public class BaseControllable : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-        if (!isControlled) return;          // Do nothing when not controlled by player 
+
     }
 
     public virtual void SetControl(bool controlled) {
