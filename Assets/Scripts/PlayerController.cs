@@ -9,14 +9,23 @@ public class PlayerController : MonoBehaviour
     public float MaxSpeed;
 
     bool isMoving;
+    bool isUsingSkill1=false,isUsingSkill2=false;
     Rigidbody rb;
     Vector2 movingDirection = Vector2.zero;
+
+    EquipSkillBase[] equipSkills =new EquipSkillBase[2];
+
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
 
+        //测试用，初始化两个绳在身上
+        equipSkills[0]=new Skill_RopeTest();
+        equipSkills[0].OnEquip(this);
+        equipSkills[1]=new Skill_RopeTest();
+        equipSkills[1].OnEquip(this);
     }
 
     // Update is called once per frame
@@ -29,9 +38,25 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Moving!");
             OnMove();
         }
+
+        if (Input.GetMouseButton(0))
+        {
+            if (!isUsingSkill1)
+            {
+                equipSkills[0].OnBeginUse();
+            }
+            else
+            {
+                equipSkills[0].OnUse();
+            }
+            isUsingSkill1 = true;
+        }
         else
         {
+            if(isUsingSkill1)
+                equipSkills[0].OnEndUse();
 
+            isUsingSkill1=false;
         }
 
     }
