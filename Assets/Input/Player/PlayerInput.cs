@@ -129,7 +129,7 @@ namespace InputSystem
                     ""id"": ""53cb979c-c418-4236-b625-5b910da4fc10"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""ScaleVector2(x=0.03,y=0.02)"",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
