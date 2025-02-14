@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : BaseControllable
 {
 
     public float acclerate;
@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
 
-        //²âÊÔÓÃ£¬³õÊ¼»¯Á½¸öÉþÔÚÉíÉÏ
+        //ï¿½ï¿½ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         equipSkills[0]=new Skill_RopeTest();
         equipSkills[0].OnEquip(this);
         equipSkills[1]=new Skill_RopeTest();
@@ -29,8 +29,11 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
+        base.Update();
+        if (!isControlled) return;
+
         UpdateMovingState();
 
         if (movingDirection != Vector2.zero)
@@ -100,6 +103,4 @@ public class PlayerController : MonoBehaviour
      {
         rb.AddForce(new Vector3(0,300, 0));
      }
-
-
 }
