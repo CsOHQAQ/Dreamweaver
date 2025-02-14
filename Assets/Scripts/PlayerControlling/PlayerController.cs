@@ -10,16 +10,17 @@ public class PlayerController : BaseControllable
 
     bool isMoving;
     bool isUsingSkill1=false,isUsingSkill2=false;
-    Rigidbody rb;
+    // Rigidbody rb;
     Vector2 movingDirection = Vector2.zero;
 
     EquipSkillBase[] equipSkills =new EquipSkillBase[2];
 
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        base.Start();
+        // rb = GetComponent<Rigidbody>();
 
         //�����ã���ʼ��������������
         equipSkills[0]=new Skill_RopeTest();
