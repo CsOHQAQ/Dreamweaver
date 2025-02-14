@@ -47,6 +47,8 @@ public class ThirdPersonController : BaseControllable
             HandleJump();
         }
 
+        Debug.Log($"Player move {moveInput} at velocity {velocity}");
+
         ApplyMovement();
     }
 
@@ -54,6 +56,7 @@ public class ThirdPersonController : BaseControllable
     void HandleMovement()
     {
         Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
+
         move = Camera.main.transform.TransformDirection(move);
         move.y = 0;
 
@@ -62,6 +65,7 @@ public class ThirdPersonController : BaseControllable
             velocity.x = move.x * moveSpeed;
             velocity.z = move.z * moveSpeed;
         }
+
 
         if (isGrounded && move.magnitude > 0.1f)
         {
