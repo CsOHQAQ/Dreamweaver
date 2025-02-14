@@ -82,7 +82,7 @@ public class Skill_RopeTest : EquipSkillBase
     {
         base.OnUse();
 
-
+        Debug.Log($"Rope's current stage is {curStage}");
         switch (curStage)
         {
             case Stage.NotConnected:
@@ -105,6 +105,7 @@ public class Skill_RopeTest : EquipSkillBase
     }
     public override void OnEndUse(object args = null)
     {
+
         base.OnEndUse();
     }
 

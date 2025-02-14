@@ -59,11 +59,11 @@ public class RopeObject : MonoBehaviour
     public void Pull()
     {
         Vector3 direction = (connect1.transform.position - connect2.transform.position).normalized;
-        if (connect1.Movable)
+        if (connect1.Movable&& connect1.GetComponent<Rigidbody>()!=null)
         {            
             connect1.GetComponent<Rigidbody>().AddForce(-direction*PullForce*Time.deltaTime);
         }
-        if (connect2.Movable)
+        if (connect2.Movable && connect2.GetComponent<Rigidbody>() != null)
         {
             if(!(connect2.gameObject.layer==LayerMask.NameToLayer("Player")))
             connect2.GetComponent<Rigidbody>().AddForce(direction * PullForce * Time.deltaTime);
