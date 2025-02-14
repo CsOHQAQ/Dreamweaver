@@ -4,13 +4,12 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-public class ThirdPersonController : MonoBehaviour
+public class ThirdPersonController : BaseControllable
 {
     public float moveSpeed = 5f;
     public float rotationSpeed = 10f;
     public float jumpForce = 8f;
     public float gravity = -9.81f;
-
     private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
@@ -37,13 +36,21 @@ public class ThirdPersonController : MonoBehaviour
         controls.Disable();
     }
 
-    void Update()
+    protected override void Update()
     {
         CheckIsGrounded();
-        HandleMovement();
-        HandleGravityAndJump();
+        ApplyGravity();
+
+        if (isControlled)
+        {
+            HandleMovement();
+            HandleJump();
+        }
+
+        ApplyMovement();
     }
 
+    //Handle movement input
     void HandleMovement()
     {
         Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
@@ -56,9 +63,6 @@ public class ThirdPersonController : MonoBehaviour
             velocity.z = move.z * moveSpeed;
         }
 
-        Vector3 movement = new Vector3(velocity.x, 0, velocity.z);
-        controller.Move(movement * Time.deltaTime);
-
         if (isGrounded && move.magnitude > 0.1f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(move);
@@ -66,31 +70,34 @@ public class ThirdPersonController : MonoBehaviour
         }
     }
 
-    void HandleGravityAndJump()
+    //Handle jump input
+    void HandleJump()
     {
-        if (isGrounded)
+        if (isGrounded && jumpInput)
         {
-            if (velocity.y < 0)
-            {
-                velocity.y = -2f;
-            }
-
-            if (jumpInput)
-            {
-                velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
-                jumpInput = false;
-            }
-        }
-        else
-        {
+            velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
             jumpInput = false;
+        }
+    }
+
+    //Apply gravity to the player
+    void ApplyGravity()
+    {
+        if (isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f;
         }
 
         velocity.y += gravity * Time.deltaTime;
-
-        controller.Move(new Vector3(0, velocity.y, 0) * Time.deltaTime);
     }
 
+    //Apply movement to the player
+    void ApplyMovement()
+    {
+        controller.Move(velocity * Time.deltaTime);
+    }
+
+    //Check if the player is grounded
     void CheckIsGrounded()
     {
         float sphereRadius = 0.4f;
@@ -102,7 +109,6 @@ public class ThirdPersonController : MonoBehaviour
 
         isGrounded = Physics.SphereCast(sphereOrigin, sphereRadius, Vector3.down, out RaycastHit hit, groundCheckDistance, groundLayer);
     }
-
 
     // void OnDrawGizmos()
     // {
