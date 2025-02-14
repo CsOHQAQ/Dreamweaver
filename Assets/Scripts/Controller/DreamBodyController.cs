@@ -23,11 +23,6 @@ public class DreamBodyController : BaseControllable
         controller = GetComponent<CharacterController>();
 
         //DEBUG: Test add skill rope
-        equipSkills[0]=new Skill_RopeTest();
-        equipSkills[1] = new Skill_RopeTest();
-        isUsingSkills.Add(equipSkills[0], false);
-        isUsingSkills.Add(equipSkills[1], false);
-        equipSkills[0].OnEquip(this); equipSkills[1].OnEquip(this);
     }
 
     void OnEnable()

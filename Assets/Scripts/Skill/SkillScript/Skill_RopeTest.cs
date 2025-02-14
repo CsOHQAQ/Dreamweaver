@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,6 +37,7 @@ public class Skill_RopeTest : EquipSkillBase
 
             var dreamBody = hit.transform.GetComponent<DreamBodyController>();
             if (dreamBody)  {
+                dreamBody.GetComponentInChildren<CinemachineFreeLook>().Priority = 11;
                 EventManager.TriggerSwitchControl(dreamBody);
                 return true;
             }
