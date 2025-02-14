@@ -30,9 +30,15 @@ public class Skill_RopeTest : EquipSkillBase
         if(Physics.Raycast(ray, out hit))
         {
             Debug.DrawLine(Camera.main.transform.position,hit.transform.position,Color.red,1);
-           AttachableObject obj= hit.transform.GetComponent<AttachableObject>();
+            AttachableObject obj= hit.transform.GetComponent<AttachableObject>();
             if(obj==null)
                 return false;
+
+            var dreamBody = hit.transform.GetComponent<DreamBodyController>();
+            if (dreamBody)  {
+                EventManager.TriggerSwitchControl(dreamBody);
+                return true;
+            }
 
             switch (curStage)
             {
