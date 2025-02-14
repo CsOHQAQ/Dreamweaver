@@ -55,6 +55,24 @@ namespace InputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseLeftSkill"",
+                    ""type"": ""Button"",
+                    ""id"": ""b908c27e-947c-4c8a-93a4-c6519c63af48"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseRightSkill"",
+                    ""type"": ""Button"",
+                    ""id"": ""eaab388b-b48c-400d-8518-da399c0df214"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -167,6 +185,28 @@ namespace InputSystem
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fa0c0672-4fc3-45ec-906b-ef17f1cd4838"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseLeftSkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b521ea04-436c-4b14-9b95-da284e38cedb"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseRightSkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -201,6 +241,8 @@ namespace InputSystem
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
             m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+            m_Player_UseLeftSkill = m_Player.FindAction("UseLeftSkill", throwIfNotFound: true);
+            m_Player_UseRightSkill = m_Player.FindAction("UseRightSkill", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -265,6 +307,8 @@ namespace InputSystem
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Look;
         private readonly InputAction m_Player_Jump;
+        private readonly InputAction m_Player_UseLeftSkill;
+        private readonly InputAction m_Player_UseRightSkill;
         public struct PlayerActions
         {
             private @PlayerInput m_Wrapper;
@@ -272,6 +316,8 @@ namespace InputSystem
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Look => m_Wrapper.m_Player_Look;
             public InputAction @Jump => m_Wrapper.m_Player_Jump;
+            public InputAction @UseLeftSkill => m_Wrapper.m_Player_UseLeftSkill;
+            public InputAction @UseRightSkill => m_Wrapper.m_Player_UseRightSkill;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -290,6 +336,12 @@ namespace InputSystem
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @UseLeftSkill.started += instance.OnUseLeftSkill;
+                @UseLeftSkill.performed += instance.OnUseLeftSkill;
+                @UseLeftSkill.canceled += instance.OnUseLeftSkill;
+                @UseRightSkill.started += instance.OnUseRightSkill;
+                @UseRightSkill.performed += instance.OnUseRightSkill;
+                @UseRightSkill.canceled += instance.OnUseRightSkill;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -303,6 +355,12 @@ namespace InputSystem
                 @Jump.started -= instance.OnJump;
                 @Jump.performed -= instance.OnJump;
                 @Jump.canceled -= instance.OnJump;
+                @UseLeftSkill.started -= instance.OnUseLeftSkill;
+                @UseLeftSkill.performed -= instance.OnUseLeftSkill;
+                @UseLeftSkill.canceled -= instance.OnUseLeftSkill;
+                @UseRightSkill.started -= instance.OnUseRightSkill;
+                @UseRightSkill.performed -= instance.OnUseRightSkill;
+                @UseRightSkill.canceled -= instance.OnUseRightSkill;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -343,6 +401,8 @@ namespace InputSystem
             void OnMove(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
+            void OnUseLeftSkill(InputAction.CallbackContext context);
+            void OnUseRightSkill(InputAction.CallbackContext context);
         }
     }
 }
