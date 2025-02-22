@@ -79,7 +79,6 @@ public class Skill_RopeTest : EquipSkillBase
 
         return false;
     }
-
     public override void OnUse(object args = null)
     {
         base.OnUse();
@@ -110,12 +109,18 @@ public class Skill_RopeTest : EquipSkillBase
 
         base.OnEndUse();
     }
-
+    public override void OnCanceled(object args = null)
+    {
+        base.OnCanceled(args);
+        curStage = Stage.NotConnected;
+        GameObject.Destroy( ropeObject?.gameObject );
+    }
 
     enum Stage
     {
         NotConnected,
         OneSide,
         BothSide
+
     }
 }

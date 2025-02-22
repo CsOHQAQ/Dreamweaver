@@ -36,6 +36,10 @@ public abstract class EquipSkillBase
 
     }
 
+    public virtual void OnCanceled(object args=null)
+    {
+
+    }
 
     // Start is called before the first frame update
     void Start()
