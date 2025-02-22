@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 using UnityEditor.ShaderGraph;
 using System.Globalization;
 using Unity.VisualScripting;
+using UnityEngine.InputSystem.Interactions;
 
 public class PlayerController : BaseControllable
 {
@@ -42,13 +43,64 @@ public class PlayerController : BaseControllable
         controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
         controls.Player.Jump.performed += ctx => jumpInput = true;
-        controls.Player.UseLeftSkill.started += ctx => OnBeginUseSkill(0);
-        //controls.Player.UseLeftSkill.performed += ctx => OnUseSkill(0);
-        controls.Player.UseLeftSkill.canceled += ctx => OnEndUseSkill(0);
 
-        controls.Player.UseRightSkill.started += ctx => OnBeginUseSkill(1);
-        controls.Player.UseRightSkill.performed += ctx => OnUseSkill(1);
-        controls.Player.UseRightSkill.canceled += ctx => OnEndUseSkill(1);
+        controls.Player.UseLeftSkill.performed += ctx =>
+        {
+            Debug.Log($"ctx interaction is {ctx.interaction}");
+            if(ctx.interaction is MultiTapInteraction)
+            {
+                Debug.Log("Left multiTaped");
+                equipSkills[0].OnCanceled();
+            }
+            else if (ctx.interaction is HoldInteraction)
+            {
+                Debug.Log("Left holded");
+
+                isUsingSkills[equipSkills[0]] = true;
+                equipSkills[0].OnUse();
+            }
+            else if (ctx.interaction is TapInteraction)
+            {
+                Debug.Log("Left taped");
+                equipSkills[0].OnBeginUse();
+            }
+        };
+        controls.Player.UseLeftSkill.canceled += ctx =>
+        {
+            if (ctx.interaction is HoldInteraction)
+            {
+                isUsingSkills[equipSkills[0]] = false;
+            }                
+        };
+
+        controls.Player.UseRightSkill.performed += ctx =>
+        {
+            Debug.Log($"ctx interaction is {ctx.interaction}");
+            if (ctx.interaction is MultiTapInteraction)
+            {
+                Debug.Log("Left multiTaped");
+                equipSkills[1].OnCanceled();
+            }
+            else if (ctx.interaction is HoldInteraction)
+            {
+                Debug.Log("Left holded");
+
+                isUsingSkills[equipSkills[1]] = true;
+                equipSkills[1].OnUse();
+            }
+            else if (ctx.interaction is TapInteraction)
+            {
+                Debug.Log("Left taped");
+                equipSkills[1].OnBeginUse();
+            }
+        };
+        controls.Player.UseRightSkill.canceled += ctx =>
+        {
+            if (ctx.interaction is HoldInteraction)
+            {
+                isUsingSkills[equipSkills[1]] = false;
+            }
+        };
     }
 
     void OnDisable()
@@ -157,27 +209,4 @@ public class PlayerController : BaseControllable
     //     Gizmos.color = isGrounded ? Color.green : Color.red;
     //     Gizmos.DrawWireSphere(castEnd, sphereRadius);
     // }
-    void OnBeginUseSkill(int index)
-    {
-        if (index > 2)
-        {
-            Debug.Log("Skill index probably too big?");
-            
-        }
-        isUsingSkills[equipSkills[index]] = true;
-        equipSkills[index].OnBeginUse();
-    }
-    void OnUseSkill(int index)
-    {
-        Debug.Log($"Skill {index} is being used!");
-        equipSkills[index].OnUse();
-
-
-    }
-    void OnEndUseSkill(int index)
-    {
-        isUsingSkills[equipSkills[index]] = false;
-        equipSkills[index].OnEndUse();
-    }
-
 }

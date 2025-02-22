@@ -190,7 +190,7 @@ namespace InputSystem
                     ""name"": """",
                     ""id"": ""fa0c0672-4fc3-45ec-906b-ef17f1cd4838"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold,MultiTap(tapDelay=0.15),Tap"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""UseLeftSkill"",
