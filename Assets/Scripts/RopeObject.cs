@@ -65,8 +65,28 @@ public class RopeObject : MonoBehaviour
         }
         if (connect2.Movable && connect2.GetComponent<Rigidbody>() != null)
         {
-            if(!(connect2.gameObject.layer==LayerMask.NameToLayer("Player")))
-            connect2.GetComponent<Rigidbody>().AddForce(direction * PullForce * Time.deltaTime);
+            if(!(connect2.tag == "Player"))
+                connect2.GetComponent<Rigidbody>().AddForce(direction * PullForce * Time.deltaTime);
+            
+        }
+        else
+        {
+            if(connect2.tag == "Player")
+            {
+                PlayerController player = connect2.GetComponent<PlayerController>();
+                if (player.GetGroundObject() != null) 
+                {
+                    if(player.GetGroundObject().GetComponent<Rigidbody>() != null)
+                    {
+                        player.GetGroundObject().GetComponent<Rigidbody>().AddForce(direction * PullForce * Time.deltaTime);
+                        
+                        //player.GetComponent<CharacterController>().SimpleMove(new Vector3( player.GetGroundObject().GetComponent<Rigidbody>().velocity.x,0, player.GetGroundObject().GetComponent<Rigidbody>().velocity.z));
+                        //player.transform.position = player.transform.position+player.GetGroundObject().GetComponent<Rigidbody>().velocity * Time.deltaTime;
+                    }
+                        
+                }
+            }
+
         }
     }
 }

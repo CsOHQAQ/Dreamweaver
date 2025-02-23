@@ -18,6 +18,7 @@ public class PlayerController : BaseControllable
     private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
+    private GameObject groundObj;
     private InputSystem.PlayerInput controls;
     private Vector2 moveInput;
     private bool jumpInput;
@@ -121,7 +122,7 @@ public class PlayerController : BaseControllable
 
         foreach (var item in isUsingSkills)
         {
-            Debug.Log($"{item.Key} is {item.Value}");
+            //Debug.Log($"{item.Key} is {item.Value}");
             if (item.Value)
             {
                 item.Key.OnUse();
@@ -139,7 +140,7 @@ public class PlayerController : BaseControllable
         move = Camera.main.transform.TransformDirection(move);
         move.y = 0;
 
-        if (isGrounded)
+        //if (isGrounded)
         {
             velocity.x = move.x * moveSpeed;
             velocity.z = move.z * moveSpeed;
@@ -191,6 +192,20 @@ public class PlayerController : BaseControllable
         Vector3 sphereOrigin = transform.position + Vector3.down * (playerHeight / 2 - sphereRadius);
 
         isGrounded = Physics.SphereCast(sphereOrigin, sphereRadius, Vector3.down, out RaycastHit hit, groundCheckDistance, groundLayer);
+        groundObj=isGrounded? hit.collider.gameObject: null;
+        if (groundObj != null)
+        {
+            if (groundObj.GetComponent<Rigidbody>()!=null)
+            {
+                controller.SimpleMove(groundObj.GetComponent<Rigidbody>().velocity);
+            }
+            
+        }
+    }
+
+    public GameObject GetGroundObject()
+    {
+        return groundObj;
     }
 
     // void OnDrawGizmos()
