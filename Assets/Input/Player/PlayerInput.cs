@@ -48,6 +48,15 @@ namespace InputSystem
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""463c7228-9765-4ae8-8d29-5e4fc7bf82b2"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": ""Clamp(min=-0.1,max=0.1),Invert"",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""ef4325c2-b738-4309-87a1-b44ba0bb6c42"",
@@ -147,7 +156,7 @@ namespace InputSystem
                     ""id"": ""53cb979c-c418-4236-b625-5b910da4fc10"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
-                    ""processors"": ""ScaleVector2(x=0.03,y=0.02)"",
+                    ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
@@ -158,7 +167,7 @@ namespace InputSystem
                     ""id"": ""0bd2675f-bda5-4d8f-8832-970b524f5aa4"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""ScaleVector2(x=20,y=20)"",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
@@ -207,6 +216,17 @@ namespace InputSystem
                     ""action"": ""UseRightSkill"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fdf05c98-e5a8-49e9-abee-6efe3ab817e1"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -240,6 +260,7 @@ namespace InputSystem
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
+            m_Player_Zoom = m_Player.FindAction("Zoom", throwIfNotFound: true);
             m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
             m_Player_UseLeftSkill = m_Player.FindAction("UseLeftSkill", throwIfNotFound: true);
             m_Player_UseRightSkill = m_Player.FindAction("UseRightSkill", throwIfNotFound: true);
@@ -306,6 +327,7 @@ namespace InputSystem
         private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Look;
+        private readonly InputAction m_Player_Zoom;
         private readonly InputAction m_Player_Jump;
         private readonly InputAction m_Player_UseLeftSkill;
         private readonly InputAction m_Player_UseRightSkill;
@@ -315,6 +337,7 @@ namespace InputSystem
             public PlayerActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Look => m_Wrapper.m_Player_Look;
+            public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
             public InputAction @Jump => m_Wrapper.m_Player_Jump;
             public InputAction @UseLeftSkill => m_Wrapper.m_Player_UseLeftSkill;
             public InputAction @UseRightSkill => m_Wrapper.m_Player_UseRightSkill;
@@ -333,6 +356,9 @@ namespace InputSystem
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
+                @Zoom.started += instance.OnZoom;
+                @Zoom.performed += instance.OnZoom;
+                @Zoom.canceled += instance.OnZoom;
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
@@ -352,6 +378,9 @@ namespace InputSystem
                 @Look.started -= instance.OnLook;
                 @Look.performed -= instance.OnLook;
                 @Look.canceled -= instance.OnLook;
+                @Zoom.started -= instance.OnZoom;
+                @Zoom.performed -= instance.OnZoom;
+                @Zoom.canceled -= instance.OnZoom;
                 @Jump.started -= instance.OnJump;
                 @Jump.performed -= instance.OnJump;
                 @Jump.canceled -= instance.OnJump;
@@ -400,6 +429,7 @@ namespace InputSystem
         {
             void OnMove(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
+            void OnZoom(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
             void OnUseLeftSkill(InputAction.CallbackContext context);
             void OnUseRightSkill(InputAction.CallbackContext context);
