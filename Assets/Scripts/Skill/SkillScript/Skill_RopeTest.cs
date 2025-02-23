@@ -6,7 +6,7 @@ using UnityEngine;
 public class Skill_RopeTest : EquipSkillBase
 {
     public float Range=200f;
-    public float ThrowSpeed = 10f;
+    public float ThrowSpeed = 100f;
 
     private RopeObject ropeObject;
     private Stage curStage;
@@ -48,8 +48,9 @@ public class Skill_RopeTest : EquipSkillBase
                     #region Init Rope
                     ropeObject =GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/RopeTest")).GetComponent<RopeObject>();
                     ropeObject.Speed = ThrowSpeed;
-
+                    ropeObject.clickPos1 = hit.point;
                     ropeObject.connect1 = obj;
+                    ropeObject.clickPos2 = player.transform.position;
                     ropeObject.connect2 = player.GetComponent<AttachableObject>();
                     ropeObject.SetLocation(player.transform.position, player.transform.position);
                     ropeObject.isMoving = true;
@@ -62,6 +63,7 @@ public class Skill_RopeTest : EquipSkillBase
                 case Stage.OneSide:
                     if (!ropeObject.isMoving)
                     {
+                        ropeObject.clickPos2 = hit.point;
                         ropeObject.connect2 = obj.GetComponent<AttachableObject>();
                         ropeObject.isMoving = true;
                         ropeObject.isPulling= true;
@@ -93,6 +95,10 @@ public class Skill_RopeTest : EquipSkillBase
                 if (!ropeObject.isMoving)
                 {
                     ropeObject.Pull();
+                }
+                else
+                {
+                    Debug.Log("Rope Moving! Pulling Canceled");
                 }
                 break;
 
