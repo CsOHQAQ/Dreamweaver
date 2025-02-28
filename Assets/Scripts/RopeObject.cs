@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class RopeObject : MonoBehaviour
 {
+    [HideInInspector]
     public float Speed;
     public float Length;
 
     public LineRenderer line;
     public AttachableObject connect1, connect2;
+    public Vector3 clickPos1, clickPos2;
     public bool isMoving;
     public bool isPulling;
     public float PullForce=5000;
@@ -21,19 +23,19 @@ public class RopeObject : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        line.SetPosition(0, Vector3.Lerp(line.GetPosition(0),connect1.transform.position,Speed*Time.deltaTime));
-        line.SetPosition(1, Vector3.Lerp(line.GetPosition(1), connect2.transform.position, Speed* Time.deltaTime));
+        
+        line.SetPosition(0, Vector3.Lerp(line.GetPosition(0), connect1.GetClosestSocket(clickPos1).position,Speed*Time.deltaTime));
+        line.SetPosition(1, Vector3.Lerp(line.GetPosition(1), connect2.GetClosestSocket(clickPos2).position, Speed* Time.deltaTime));
 
         if (isMoving)
         {
-            if (Vector3.Distance(line.GetPosition(0),connect1.transform.position)<0.05f&& Vector3.Distance(line.GetPosition(1), connect2.transform.position) < 0.05f)
+            if (Vector3.Distance(line.GetPosition(0), connect1.GetClosestSocket(clickPos1).position) <0.05f&& Vector3.Distance(line.GetPosition(1), connect2.GetClosestSocket(clickPos2).position) < 0.05f)
             {
                 isMoving = false;
             }
@@ -58,14 +60,15 @@ public class RopeObject : MonoBehaviour
 
     public void Pull()
     {
-        Vector3 direction = (connect1.transform.position - connect2.transform.position).normalized;
+        Vector3 direction = (connect1.GetClosestSocket(clickPos1).position - connect2.GetClosestSocket(clickPos2).position).normalized;
         if (connect1.Movable&& connect1.GetComponent<Rigidbody>()!=null)
         {            
             connect1.GetComponent<Rigidbody>().AddForce(-direction*PullForce*Time.deltaTime);
         }
         if (connect2.Movable && connect2.GetComponent<Rigidbody>() != null)
         {
-            if(!(connect2.tag == "Player"))
+            //if(!(connect2.tag == "Player"))
+            Debug.Log("Test Pull");
                 connect2.GetComponent<Rigidbody>().AddForce(direction * PullForce * Time.deltaTime);
             
         }

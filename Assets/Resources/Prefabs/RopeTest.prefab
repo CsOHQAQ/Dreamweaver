@@ -78,7 +78,7 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 10, y: 10, z: 10}
+  - {x: 12.7, y: 10, z: 10}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.5
@@ -177,11 +177,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f236302195167b4b9844ffe87fc6bac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 50
+  Speed: 10000
   Length: 0
   line: {fileID: 816724828897998735}
   connect1: {fileID: 0}
   connect2: {fileID: 0}
   isMoving: 0
   isPulling: 0
-  PullForce: 700
+  PullForce: 1200
