@@ -10,10 +10,8 @@ public class DreamBodyController : BaseControllable
     public float rotationSpeed = 10f;
     public float jumpForce = 8f;
     public float gravity = -9.81f;
-    private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
-    private InputSystem.PlayerInput controls;
     private Vector2 moveInput;
     private bool jumpInput;
 
@@ -142,4 +140,5 @@ public class DreamBodyController : BaseControllable
         controller.enabled = true;
         Debug.Log($"after: Current Location:{transform.position}");
     }
+
 }

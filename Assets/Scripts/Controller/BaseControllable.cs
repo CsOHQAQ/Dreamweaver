@@ -8,6 +8,9 @@ public class BaseControllable : MonoBehaviour
     protected bool isControlled = false;    // A bool to indicate whether the playing is controlling or not
     public Rigidbody rb;                 // Rigidbody, assuming every class has a rb
 
+    protected InputSystem.PlayerInput controls;
+    protected CharacterController controller;
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -22,5 +25,13 @@ public class BaseControllable : MonoBehaviour
 
     public virtual void SetControl(bool controlled) {
         isControlled = controlled;
+    }
+
+    public void DisableControl() {
+        controls.Disable();
+    }
+
+    public void EnableControl() {
+        controls.Enable();
     }
 }

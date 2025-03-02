@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void SetCurrControllable(BaseControllable newTarget) {
+        if (newTarget == CurrentControllable) return;
         if (CurrentControllable != null) 
         {
             
