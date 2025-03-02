@@ -34,8 +34,8 @@ public class GameManager : MonoBehaviour
         if (newTarget == CurrentControllable) return;
         if (CurrentControllable != null) 
         {
-            
             CurrentControllable.SetControl(false);
+            CurrentControllable.DisableControl();
             PrevControllable = CurrentControllable;
         }
 
@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
         CurrentControllable = newTarget;
         CurrentControllable.GetComponentInChildren<CinemachineFreeLook>().Priority = 11;
         CurrentControllable.SetControl(true);
-
+        CurrentControllable.EnableControl();
         Debug.Log($"{PrevControllable.gameObject.name} Switched control to: {CurrentControllable.gameObject.name}");
     }
 }
