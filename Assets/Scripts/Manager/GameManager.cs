@@ -1,21 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set;}
-    [SerializeField]
-    private BaseControllable currentControllable;
-    [SerializeField]
-    private BaseControllable prevControllable;
-
-    [Tooltip("Testing Purpose")]
-    public BaseControllable player;
-    public BaseControllable dreamBody;
-    public BaseControllable curr;
-
+    public BaseControllable CurrentControllable;
+    public BaseControllable PrevControllable;
     private void Awake() {
         if (Instance == null) 
         {
@@ -38,27 +31,21 @@ public class GameManager : MonoBehaviour
     }
 
     public void SetCurrControllable(BaseControllable newTarget) {
-        if (currentControllable != null) 
+        if (CurrentControllable != null) 
         {
-            currentControllable.SetControl(false);
-            prevControllable = currentControllable;
+            
+            CurrentControllable.SetControl(false);
+            PrevControllable = CurrentControllable;
         }
 
-        prevControllable = currentControllable;
-        currentControllable = newTarget;
-        currentControllable.SetControl(true);
-
-        Debug.Log($"{prevControllable.gameObject.name} Switched control to: {currentControllable.gameObject.name}");
-    }
-
-    // Anson: Testing purpose, Update should be change to event (e.g. line touch something and trigger)
-    void Update() {
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            curr = curr == null ? dreamBody : curr;
-            EventManager.TriggerSwitchControl(curr);
-            curr = prevControllable;
+        PrevControllable = CurrentControllable;
+        if (PrevControllable != null) {
+            PrevControllable.GetComponentInChildren<CinemachineFreeLook>().Priority = 10;
         }
+        CurrentControllable = newTarget;
+        CurrentControllable.GetComponentInChildren<CinemachineFreeLook>().Priority = 11;
+        CurrentControllable.SetControl(true);
+
+        Debug.Log($"{PrevControllable.gameObject.name} Switched control to: {CurrentControllable.gameObject.name}");
     }
-  
 }

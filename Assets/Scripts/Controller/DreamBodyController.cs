@@ -43,7 +43,14 @@ public class DreamBodyController : BaseControllable
                 ReturnToOrigin();
             }
         };
-
+        controls.Player.UseRightSkill.performed += ctx =>
+        {
+            if(ctx.interaction is TapInteraction)
+            {
+                Debug.Log("Right taped");
+                EventManager.TriggerSwitchControl(GameManager.Instance.PrevControllable);
+            }
+        };
         
     }
 

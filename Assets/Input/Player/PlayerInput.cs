@@ -201,7 +201,7 @@ namespace InputSystem
                     ""name"": """",
                     ""id"": ""b521ea04-436c-4b14-9b95-da284e38cedb"",
                     ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
+                    ""interactions"": ""Tap"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""UseRightSkill"",
