@@ -24,6 +24,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Zoom",
+                    "type": "Value",
+                    "id": "463c7228-9765-4ae8-8d29-5e4fc7bf82b2",
+                    "expectedControlType": "Axis",
+                    "processors": "Clamp(min=-0.1,max=0.1),Invert",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "ef4325c2-b738-4309-87a1-b44ba0bb6c42",
@@ -123,7 +132,7 @@
                     "id": "53cb979c-c418-4236-b625-5b910da4fc10",
                     "path": "<Mouse>/delta",
                     "interactions": "",
-                    "processors": "ScaleVector2(x=0.03,y=0.02)",
+                    "processors": "",
                     "groups": "Keyboard",
                     "action": "Look",
                     "isComposite": false,
@@ -134,7 +143,7 @@
                     "id": "0bd2675f-bda5-4d8f-8832-970b524f5aa4",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "ScaleVector2(x=20,y=20)",
                     "groups": "Gamepad",
                     "action": "Look",
                     "isComposite": false,
@@ -166,7 +175,7 @@
                     "name": "",
                     "id": "fa0c0672-4fc3-45ec-906b-ef17f1cd4838",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "Hold,MultiTap(tapDelay=0.15),Tap",
+                    "interactions": "Hold(duration=0.25),MultiTap(tapDelay=0.15),Tap",
                     "processors": "",
                     "groups": "",
                     "action": "UseLeftSkill",
@@ -177,10 +186,21 @@
                     "name": "",
                     "id": "b521ea04-436c-4b14-9b95-da284e38cedb",
                     "path": "<Mouse>/rightButton",
-                    "interactions": "Tap",
+                    "interactions": "Hold(duration=0.25),MultiTap(tapDelay=0.1),Tap",
                     "processors": "",
                     "groups": "",
                     "action": "UseRightSkill",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fdf05c98-e5a8-49e9-abee-6efe3ab817e1",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Zoom",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
