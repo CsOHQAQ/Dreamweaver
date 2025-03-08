@@ -32,7 +32,7 @@ public class PlayerController : BaseControllable
 
         //DEBUG: Test add skill rope
         equipSkills[0]=new Skill_RopeTest();
-        equipSkills[1] = new Skill_RopeTest();
+        equipSkills[1] = new Skill_Scissor();
         isUsingSkills.Add(equipSkills[0], false);
         isUsingSkills.Add(equipSkills[1], false);
         equipSkills[0].OnEquip(this); equipSkills[1].OnEquip(this);
@@ -51,7 +51,7 @@ public class PlayerController : BaseControllable
             if(ctx.interaction is MultiTapInteraction)
             {
                 Debug.Log("Left multiTaped");
-                equipSkills[0].OnCanceled();
+                //equipSkills[0].OnCanceled();
             }
             else if (ctx.interaction is HoldInteraction)
             {
@@ -80,7 +80,7 @@ public class PlayerController : BaseControllable
             if (ctx.interaction is MultiTapInteraction)
             {
                 Debug.Log("Left multiTaped");
-                equipSkills[1].OnCanceled();
+                //equipSkills[1].OnCanceled();
             }
             else if (ctx.interaction is HoldInteraction)
             {

@@ -25,7 +25,6 @@ public class Skill_RopeTest : EquipSkillBase
         }
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
         RaycastHit hit;
         
         if(Physics.Raycast(ray, out hit))
@@ -47,14 +46,12 @@ public class Skill_RopeTest : EquipSkillBase
                 case Stage.NotConnected:
                     #region Init Rope
                     ropeObject =GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/RopeTest")).GetComponent<RopeObject>();
-                    ropeObject.Speed = ThrowSpeed;
-                    ropeObject.clickPos1 = hit.point;
-                    ropeObject.connect1 = obj;
-                    ropeObject.clickPos2 = player.transform.position;
-                    ropeObject.connect2 = player.GetComponent<AttachableObject>();
+                    ropeObject.Init(ThrowSpeed,100,1000,hit.point,obj,player.transform.position,player.GetComponent<AttachableObject>(), () =>
+                    {
+                        OnCanceled();
+                    });
                     ropeObject.SetLocation(player.transform.position, player.transform.position);
-                    ropeObject.isMoving = true;
-                    ropeObject.isPulling = false;
+
                     #endregion
 
                     curStage = Stage.OneSide;
@@ -63,8 +60,7 @@ public class Skill_RopeTest : EquipSkillBase
                 case Stage.OneSide:
                     if (!ropeObject.isMoving)
                     {
-                        ropeObject.clickPos2 = hit.point;
-                        ropeObject.connect2 = obj.GetComponent<AttachableObject>();
+                        ropeObject.SetConnect(false, hit.point, obj.GetComponent<AttachableObject>());
                         ropeObject.isMoving = true;
                         ropeObject.isPulling= true;
                         curStage = Stage.BothSide;
@@ -110,16 +106,16 @@ public class Skill_RopeTest : EquipSkillBase
         }
 
     }
+
     public override void OnEndUse(object args = null)
     {
-
         base.OnEndUse();
     }
     public override void OnCanceled(object args = null)
     {
         base.OnCanceled(args);
         curStage = Stage.NotConnected;
-        GameObject.Destroy( ropeObject?.gameObject );
+        ropeObject=null;
     }
 
     enum Stage
