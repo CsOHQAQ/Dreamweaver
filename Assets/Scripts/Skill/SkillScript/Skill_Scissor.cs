@@ -4,22 +4,31 @@ using UnityEngine;
 
 public class Skill_Scissor : EquipSkillBase
 {
+    public Skill_Scissor()
+    {
+        _detectLayers = new List<LayerMask>() {
+            LayerMask.NameToLayer("Rope"),
+        };
+    }
     public override void OnEquip(PlayerController iPlayer)
     {
         base.OnEquip(iPlayer);
     }
     public override bool OnBeginUse(object args = null)
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit))
+        if (args == null)
         {
-            if (hit.transform.GetComponent<RopeObject>()!=null)
-            {
-                GameObject.Destroy(hit.transform.gameObject);                
-            }
+            return false;
         }
+
+        RopeObject rope= ((RaycastHit)args).transform.GetComponent<RopeObject>();
+        if (rope == null)
+        {
+            return false;
+        }
+
+        Debug.Log($"Scissor Detect:{rope.gameObject}");
+        GameObject.Destroy(rope.gameObject);        
 
         return base.OnBeginUse(args);
     }

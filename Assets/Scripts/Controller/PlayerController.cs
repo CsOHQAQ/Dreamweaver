@@ -15,6 +15,7 @@ public class PlayerController : BaseControllable
     public float rotationSpeed = 10f;
     public float jumpForce = 8f;
     public float gravity = -9.81f;
+
     private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
@@ -62,8 +63,10 @@ public class PlayerController : BaseControllable
             }
             else if (ctx.interaction is TapInteraction)
             {
-                Debug.Log("Left taped");
-                equipSkills[0].OnBeginUse();
+                Debug.Log("Left taped"); 
+                RaycastHit hit;
+                if (MouseClickDetector.GetClickObject(equipSkills[0].DetectLayer, out hit))
+                    equipSkills[0].OnBeginUse(hit);
             }
         };
         controls.Player.UseLeftSkill.canceled += ctx =>
@@ -92,7 +95,9 @@ public class PlayerController : BaseControllable
             else if (ctx.interaction is TapInteraction)
             {
                 Debug.Log("Left taped");
-                equipSkills[1].OnBeginUse();
+                RaycastHit hit;
+                if(MouseClickDetector.GetClickObject(equipSkills[1].DetectLayer,out hit))
+                    equipSkills[1].OnBeginUse(hit);
             }
         };
         controls.Player.UseRightSkill.canceled += ctx =>

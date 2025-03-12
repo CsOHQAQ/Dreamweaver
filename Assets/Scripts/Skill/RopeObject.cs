@@ -11,7 +11,9 @@ public class RopeObject : MonoBehaviour
     float Speed;
     float Length;
     LineRenderer line;
-    AttachableObject connect1, connect2;
+    AttachableObject connect1=null, connect2=null;
+
+
     Vector3 clickPos1, clickPos2;
     float PullForce = 5000;
     private Action DestoryCallback;
@@ -49,6 +51,11 @@ public class RopeObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(connect1==null||connect2==null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         
         line.SetPosition(0, Vector3.Lerp(line.GetPosition(0), connect1.GetClosestSocket(clickPos1).position,Speed*Time.deltaTime));
         line.SetPosition(1, Vector3.Lerp(line.GetPosition(1), connect2.GetClosestSocket(clickPos2).position, Speed* Time.deltaTime));
@@ -78,6 +85,7 @@ public class RopeObject : MonoBehaviour
 
     IEnumerator DelayDie(float time)
     {
+        Debug.Log("Rope Wait for dying");
         yield return new WaitForSeconds(time);
         OnDestroy();
         yield return null;
@@ -121,9 +129,6 @@ public class RopeObject : MonoBehaviour
                     if(player.GetGroundObject().GetComponent<Rigidbody>() != null)
                     {
                         player.GetGroundObject().GetComponent<Rigidbody>().AddForce(direction * PullForce * Time.deltaTime);
-                        
-                        //player.GetComponent<CharacterController>().SimpleMove(new Vector3( player.GetGroundObject().GetComponent<Rigidbody>().velocity.x,0, player.GetGroundObject().GetComponent<Rigidbody>().velocity.z));
-                        //player.transform.position = player.transform.position+player.GetGroundObject().GetComponent<Rigidbody>().velocity * Time.deltaTime;
                     }
                         
                 }
@@ -136,4 +141,5 @@ public class RopeObject : MonoBehaviour
     {
         DestoryCallback();
     }
+
 }
