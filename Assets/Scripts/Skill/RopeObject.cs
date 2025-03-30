@@ -1,19 +1,41 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RopeObject : MonoBehaviour
 {
-    [HideInInspector]
-    public float Speed;
-    public float Length;
-
-    public LineRenderer line;
-    public AttachableObject connect1, connect2;
-    public Vector3 clickPos1, clickPos2;
     public bool isMoving;
     public bool isPulling;
-    public float PullForce=5000;
+
+    float Speed;
+    float Length;
+    LineRenderer line;
+    AttachableObject connect1=null, connect2=null;
+
+
+    Vector3 clickPos1, clickPos2;
+    float PullForce = 5000;
+    private Action DestoryCallback;
+    private CapsuleCollider capCollider;
+
+    public void Init(float iSpeed, float iLength,float iPullForce,Vector3 iClickPos1, AttachableObject iConnect1, Vector3 iClickPos2, AttachableObject iConnect2, Action iCallback)
+    {
+        Speed = iSpeed;
+        Length = iLength;
+        PullForce = iPullForce;
+        clickPos1 = iClickPos1;
+        clickPos2 = iClickPos2;
+        connect1 = iConnect1;
+        connect2 = iConnect2;
+        DestoryCallback = iCallback;
+        capCollider = GetComponentInChildren<CapsuleCollider>();
+        line = GetComponent<LineRenderer>();
+        isMoving = true;
+        isPulling = false;
+
+
+    }
 
     public void SetLocation(Vector3 point1,Vector3 point2)
     {
@@ -29,9 +51,19 @@ public class RopeObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(connect1==null||connect2==null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         
         line.SetPosition(0, Vector3.Lerp(line.GetPosition(0), connect1.GetClosestSocket(clickPos1).position,Speed*Time.deltaTime));
         line.SetPosition(1, Vector3.Lerp(line.GetPosition(1), connect2.GetClosestSocket(clickPos2).position, Speed* Time.deltaTime));
+
+        Vector3 pos0= line.GetPosition(0),pos1=line.GetPosition(1);
+        capCollider.transform.position = (pos0 + pos1) / 2;
+        capCollider.height=Vector3.Distance(pos0,pos1);
+        capCollider.transform.rotation = Quaternion.FromToRotation(Vector3.up,pos1-pos0);
 
         if (isMoving)
         {
@@ -53,9 +85,24 @@ public class RopeObject : MonoBehaviour
 
     IEnumerator DelayDie(float time)
     {
+        Debug.Log("Rope Wait for dying");
         yield return new WaitForSeconds(time);
-        Destroy(gameObject);
+        OnDestroy();
         yield return null;
+    }
+
+    public void SetConnect(bool isConnect1,Vector3 iClickPos, AttachableObject iObj)
+    {
+        if (isConnect1) 
+        {
+            clickPos1= iClickPos;
+            connect1 = iObj;
+        }
+        else
+        {
+            clickPos2 = iClickPos;
+            connect2 = iObj;
+        }
     }
 
     public void Pull()
@@ -82,9 +129,6 @@ public class RopeObject : MonoBehaviour
                     if(player.GetGroundObject().GetComponent<Rigidbody>() != null)
                     {
                         player.GetGroundObject().GetComponent<Rigidbody>().AddForce(direction * PullForce * Time.deltaTime);
-                        
-                        //player.GetComponent<CharacterController>().SimpleMove(new Vector3( player.GetGroundObject().GetComponent<Rigidbody>().velocity.x,0, player.GetGroundObject().GetComponent<Rigidbody>().velocity.z));
-                        //player.transform.position = player.transform.position+player.GetGroundObject().GetComponent<Rigidbody>().velocity * Time.deltaTime;
                     }
                         
                 }
@@ -92,4 +136,10 @@ public class RopeObject : MonoBehaviour
 
         }
     }
+
+    public void OnDestroy()
+    {
+        DestoryCallback();
+    }
+
 }

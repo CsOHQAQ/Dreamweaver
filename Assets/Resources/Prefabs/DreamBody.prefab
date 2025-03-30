@@ -456,7 +456,7 @@ GameObject:
   - component: {fileID: 2096776325969882178}
   - component: {fileID: 256357064065309437}
   - component: {fileID: 8033337575634601063}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DreamBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -562,6 +562,7 @@ MonoBehaviour:
   Movable: 1
   Sockets:
   - {fileID: 6862796909315242775}
+  isCalledCollisionCallBack: 0
 --- !u!143 &8033337575634601063
 CharacterController:
   m_ObjectHideFlags: 0

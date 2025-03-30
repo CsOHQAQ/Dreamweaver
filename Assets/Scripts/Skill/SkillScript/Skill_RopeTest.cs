@@ -5,11 +5,20 @@ using UnityEngine;
 
 public class Skill_RopeTest : EquipSkillBase
 {
-    public float Range=200f;
+    public float Range = 200f;
     public float ThrowSpeed = 100f;
 
     private RopeObject ropeObject;
     private Stage curStage;
+
+    public Skill_RopeTest()
+    {
+        _detectLayers = new List<LayerMask>() {
+            LayerMask.NameToLayer("Attachable Object"),
+            LayerMask.NameToLayer("Dream Body"),
+        };
+
+    }
     public override void OnEquip(PlayerController iPlayer)
     {
         base.OnEquip(iPlayer);
@@ -19,16 +28,20 @@ public class Skill_RopeTest : EquipSkillBase
     }
     public override bool OnBeginUse(object args = null)
     {
+        if (args == null) { return false; }
+
         if (!(CanUse && CDTimer <= 0))
         {
             return false;
         }
+        RaycastHit hit = (RaycastHit)args;
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        AttachableObject obj = hit.transform.GetComponent<AttachableObject>();
+        if (obj == null)
+            return false;
 
-        RaycastHit hit;
-        
-        if(Physics.Raycast(ray, out hit))
+        var dreamBody = hit.transform.GetComponent<DreamBodyController>();
+        if (dreamBody)
         {
             Debug.DrawLine(Camera.main.transform.position,hit.transform.position,Color.red,1);
             AttachableObject obj= hit.transform.GetComponent<AttachableObject>();
@@ -78,7 +91,39 @@ public class Skill_RopeTest : EquipSkillBase
             return true;
         }
 
-        return false;
+        switch (curStage)
+        {
+            case Stage.NotConnected:
+                #region Init Rope
+                ropeObject = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/RopeTest")).GetComponent<RopeObject>();
+                ropeObject.Init(ThrowSpeed, 100, 1000, hit.point, obj, player.transform.position, player.GetComponent<AttachableObject>(), () =>
+                {
+                    OnCanceled();
+                });
+                ropeObject.SetLocation(player.transform.position, player.transform.position);
+
+                #endregion
+
+                curStage = Stage.OneSide;
+
+                break;
+            case Stage.OneSide:
+                if (!ropeObject.isMoving)
+                {
+                    ropeObject.SetConnect(false, hit.point, obj.GetComponent<AttachableObject>());
+                    ropeObject.isMoving = true;
+                    ropeObject.isPulling = true;
+                    curStage = Stage.BothSide;
+                    ropeObject.DelayBreak(7);
+                }
+                break;
+            case Stage.BothSide:
+                break;
+            default:
+                break;
+        }
+        return true;
+
     }
     public override void OnUse(object args = null)
     {
@@ -109,16 +154,16 @@ public class Skill_RopeTest : EquipSkillBase
         }
 
     }
+
     public override void OnEndUse(object args = null)
     {
-
         base.OnEndUse();
     }
     public override void OnCanceled(object args = null)
     {
         base.OnCanceled(args);
         curStage = Stage.NotConnected;
-        GameObject.Destroy( ropeObject?.gameObject );
+        ropeObject = null;
     }
 
     enum Stage

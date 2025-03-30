@@ -15,7 +15,8 @@ public class PlayerController : BaseControllable
     public float rotationSpeed = 10f;
     public float jumpForce = 8f;
     public float gravity = -9.81f;
-    
+
+    private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
     private GameObject groundObj;
@@ -32,7 +33,7 @@ public class PlayerController : BaseControllable
 
         //DEBUG: Test add skill rope
         equipSkills[0]=new Skill_RopeTest();
-        equipSkills[1] = new Skill_RopeTest();
+        equipSkills[1] = new Skill_Scissor();
         isUsingSkills.Add(equipSkills[0], false);
         isUsingSkills.Add(equipSkills[1], false);
         equipSkills[0].OnEquip(this); equipSkills[1].OnEquip(this);
@@ -51,7 +52,7 @@ public class PlayerController : BaseControllable
             if(ctx.interaction is MultiTapInteraction)
             {
                 Debug.Log("Left multiTaped");
-                equipSkills[0].OnCanceled();
+                //equipSkills[0].OnCanceled();
             }
             else if (ctx.interaction is HoldInteraction)
             {
@@ -62,8 +63,10 @@ public class PlayerController : BaseControllable
             }
             else if (ctx.interaction is TapInteraction)
             {
-                Debug.Log("Left taped");
-                equipSkills[0].OnBeginUse();
+                Debug.Log("Left taped"); 
+                RaycastHit hit;
+                if (MouseClickDetector.GetClickObject(equipSkills[0].DetectLayer, out hit))
+                    equipSkills[0].OnBeginUse(hit);
             }
         };
         controls.Player.UseLeftSkill.canceled += ctx =>
@@ -80,7 +83,7 @@ public class PlayerController : BaseControllable
             if (ctx.interaction is MultiTapInteraction)
             {
                 Debug.Log("Left multiTaped");
-                equipSkills[1].OnCanceled();
+                //equipSkills[1].OnCanceled();
             }
             else if (ctx.interaction is HoldInteraction)
             {
@@ -92,7 +95,9 @@ public class PlayerController : BaseControllable
             else if (ctx.interaction is TapInteraction)
             {
                 Debug.Log("Left taped");
-                equipSkills[1].OnBeginUse();
+                RaycastHit hit;
+                if(MouseClickDetector.GetClickObject(equipSkills[1].DetectLayer,out hit))
+                    equipSkills[1].OnBeginUse(hit);
             }
         };
         controls.Player.UseRightSkill.canceled += ctx =>

@@ -673,11 +673,11 @@ GameObject:
   - component: {fileID: 180553120}
   - component: {fileID: 180553119}
   - component: {fileID: 180553118}
-  - component: {fileID: 180553117}
   - component: {fileID: 180553116}
   - component: {fileID: 180553115}
-  m_Layer: 0
-  m_Name: Cube (2)
+  - component: {fileID: 180553121}
+  m_Layer: 8
+  m_Name: Cube_Summon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -732,21 +732,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &180553117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 180553114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12e7877ec5d811d4cb7eacc55122bf32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Movable: 1
-  Sockets:
-  - {fileID: 180553120}
 --- !u!23 &180553118
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -807,11 +792,29 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 22, y: 1.12, z: -12.88}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &180553121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180553114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb1d146b36eb14e4d82fb58f0368c2ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Movable: 1
+  Sockets:
+  - {fileID: 180553120}
+  isCalledCollisionCallBack: 0
+  SummonObj: {fileID: 446658904}
+  ScaleIndex: 2
 --- !u!1 &191384288
 GameObject:
   m_ObjectHideFlags: 0
@@ -1176,7 +1179,7 @@ GameObject:
   - component: {fileID: 438840212}
   - component: {fileID: 438840211}
   - component: {fileID: 438840210}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1247,6 +1250,7 @@ MonoBehaviour:
   Movable: 1
   Sockets:
   - {fileID: 438840215}
+  isCalledCollisionCallBack: 0
 --- !u!23 &438840213
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1372,11 +1376,11 @@ GameObject:
   - component: {fileID: 446658910}
   - component: {fileID: 446658909}
   - component: {fileID: 446658908}
-  - component: {fileID: 446658907}
   - component: {fileID: 446658906}
   - component: {fileID: 446658905}
-  m_Layer: 0
-  m_Name: Cube (5)
+  - component: {fileID: 446658911}
+  m_Layer: 8
+  m_Name: Cube_Summon2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1431,21 +1435,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &446658907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 446658904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12e7877ec5d811d4cb7eacc55122bf32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Movable: 1
-  Sockets:
-  - {fileID: 446658910}
 --- !u!23 &446658908
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1506,11 +1495,29 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.32, y: 1.12, z: -15.64}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &446658911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446658904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb1d146b36eb14e4d82fb58f0368c2ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Movable: 1
+  Sockets:
+  - {fileID: 446658910}
+  isCalledCollisionCallBack: 0
+  SummonObj: {fileID: 446658904}
+  ScaleIndex: 2
 --- !u!1 &458933507
 GameObject:
   m_ObjectHideFlags: 0
@@ -1525,6 +1532,7 @@ GameObject:
   - component: {fileID: 458933512}
   - component: {fileID: 458933513}
   - component: {fileID: 458933514}
+  - component: {fileID: 458933515}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1658,6 +1666,34 @@ MonoBehaviour:
   Movable: 1
   Sockets:
   - {fileID: 458933511}
+  isCalledCollisionCallBack: 0
+--- !u!54 &458933515
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458933507}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &459006356
 GameObject:
   m_ObjectHideFlags: 0
@@ -1977,6 +2013,7 @@ MonoBehaviour:
   - {fileID: 2035427741}
   - {fileID: 255862845}
   - {fileID: 1699364283}
+  isCalledCollisionCallBack: 0
 --- !u!136 &716190249
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2262,6 +2299,7 @@ MonoBehaviour:
   - {fileID: 485167826}
   - {fileID: 1166810091}
   - {fileID: 1474977642}
+  isCalledCollisionCallBack: 0
 --- !u!136 &799075192
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2425,6 +2463,7 @@ MonoBehaviour:
   - {fileID: 1380265093}
   - {fileID: 2054941882}
   - {fileID: 459006357}
+  isCalledCollisionCallBack: 0
 --- !u!136 &832706784
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2662,6 +2701,7 @@ MonoBehaviour:
   - {fileID: 356511287}
   - {fileID: 1919226283}
   - {fileID: 1410379888}
+  isCalledCollisionCallBack: 0
 --- !u!136 &896590895
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2836,6 +2876,7 @@ MonoBehaviour:
   Movable: 1
   Sockets:
   - {fileID: 906593392}
+  isCalledCollisionCallBack: 0
 --- !u!54 &906593394
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2975,6 +3016,7 @@ MonoBehaviour:
   - {fileID: 1280091932}
   - {fileID: 1511626719}
   - {fileID: 229819440}
+  isCalledCollisionCallBack: 0
 --- !u!136 &937013642
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3226,7 +3268,7 @@ GameObject:
   - component: {fileID: 999632778}
   - component: {fileID: 999632777}
   - component: {fileID: 999632776}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3297,6 +3339,7 @@ MonoBehaviour:
   Movable: 1
   Sockets:
   - {fileID: 999632781}
+  isCalledCollisionCallBack: 0
 --- !u!23 &999632779
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4074,7 +4117,7 @@ GameObject:
   - component: {fileID: 1515900825}
   - component: {fileID: 1515900824}
   - component: {fileID: 1515900823}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4145,6 +4188,7 @@ MonoBehaviour:
   Movable: 1
   Sockets:
   - {fileID: 1515900828}
+  isCalledCollisionCallBack: 0
 --- !u!23 &1515900826
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9920,6 +9964,7 @@ MonoBehaviour:
   - {fileID: 1206264346}
   - {fileID: 191384289}
   - {fileID: 933938019}
+  isCalledCollisionCallBack: 0
 --- !u!1 &8345070698634091256
 GameObject:
   m_ObjectHideFlags: 0
