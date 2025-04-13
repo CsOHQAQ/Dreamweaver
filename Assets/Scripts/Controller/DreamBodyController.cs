@@ -22,8 +22,10 @@ public class DreamBodyController : BaseControllable
     {
         controls = new InputSystem.PlayerInput();
         controller = GetComponent<CharacterController>();
+        gameObject.layer = LayerMask.NameToLayer("Dream Body");
 
         //DEBUG: Test add skill rope
+        Physics.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Passable Wall"));
     }
 
     void OnEnable()
