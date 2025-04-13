@@ -43,51 +43,8 @@ public class Skill_RopeTest : EquipSkillBase
         var dreamBody = hit.transform.GetComponent<DreamBodyController>();
         if (dreamBody)
         {
-            Debug.DrawLine(Camera.main.transform.position,hit.transform.position,Color.red,1);
-            AttachableObject obj= hit.transform.GetComponent<AttachableObject>();
-            if(obj==null)
-                return false;
-
-            var dreamBody = hit.transform.GetComponent<DreamBodyController>();
-            if (dreamBody)  {
-                EventManager.TriggerSwitchControl(dreamBody);
-                return true;
-            }
-
-            switch (curStage)
-            {
-                case Stage.NotConnected:
-                    #region Init Rope
-                    ropeObject =GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/RopeTest")).GetComponent<RopeObject>();
-                    ropeObject.Speed = ThrowSpeed;
-                    ropeObject.clickPos1 = hit.point;
-                    ropeObject.connect1 = obj;
-                    ropeObject.clickPos2 = player.transform.position;
-                    ropeObject.connect2 = player.GetComponent<AttachableObject>();
-                    ropeObject.SetLocation(player.transform.position, player.transform.position);
-                    ropeObject.isMoving = true;
-                    ropeObject.isPulling = false;
-                    #endregion
-
-                    curStage = Stage.OneSide;
-
-                    break;
-                case Stage.OneSide:
-                    if (!ropeObject.isMoving)
-                    {
-                        ropeObject.clickPos2 = hit.point;
-                        ropeObject.connect2 = obj.GetComponent<AttachableObject>();
-                        ropeObject.isMoving = true;
-                        ropeObject.isPulling= true;
-                        curStage = Stage.BothSide;
-                        ropeObject.DelayBreak(7);
-                    }
-                    break;
-                case Stage.BothSide:
-                    break;
-                default:
-                    break;
-            }
+            dreamBody.GetComponentInChildren<CinemachineFreeLook>().Priority = 11;
+            EventManager.TriggerSwitchControl(dreamBody);
             return true;
         }
 
