@@ -551,6 +551,7 @@ MonoBehaviour:
   Movable: 1
   Sockets:
   - {fileID: 458933511}
+  isCalledCollisionCallBack: 0
 --- !u!114 &458933515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -932,6 +933,7 @@ MonoBehaviour:
   Movable: 1
   Sockets:
   - {fileID: 906593392}
+  isCalledCollisionCallBack: 0
 --- !u!54 &906593394
 Rigidbody:
   m_ObjectHideFlags: 0
