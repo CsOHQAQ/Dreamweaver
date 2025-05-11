@@ -33,4 +33,22 @@ public class ControllableManager : BaseManager<ControllableManager>
         previousControllable = null;
     }
 
+    public void ChangeControllable(BaseControllable newControllable) 
+    {
+        if (newControllable == null || currentControllable == newControllable) return;
+
+        if (currentControllable != null) 
+        {
+            currentControllable.SetControl(false);
+            currentControllable.DisableControl();
+        }
+        previousControllable = currentControllable;
+        // TODO: Update camera logic
+
+        currentControllable = newControllable;
+        // TODO: Update camera logic
+        currentControllable.SetControl(true);
+        currentControllable.EnableControl();
+    }
+
 }
