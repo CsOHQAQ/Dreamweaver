@@ -9,6 +9,7 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     public bool Global => true;
 
     private static T instance;
+
     public static T Instance
     {
         get 
@@ -34,9 +35,7 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     protected virtual void OnStart() {}
 
     protected virtual void OnDestroy() {}
-
-    protected virtual void Init() {}
-
+    
     private void InitialSingleton() 
     {
         if (Global) 
@@ -49,6 +48,6 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             instance = gameObject.GetComponent<T>();
         }
-        Init();
+        // OnStart();
     }
 }

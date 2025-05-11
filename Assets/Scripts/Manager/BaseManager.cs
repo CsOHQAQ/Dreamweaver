@@ -5,11 +5,5 @@ using UnityEngine;
 /// </summary>
 public abstract class BaseManager<T> : MonoSingleton<T> where T : BaseManager<T>
 {
-    protected override void Init()
-    {
-        base.Init();
-    }
-    
-    public virtual void OnGameStart() {}
-    public virtual void OnGameReset() {}
+    protected virtual void OnReset() {}
 }
