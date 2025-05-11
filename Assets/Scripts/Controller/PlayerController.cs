@@ -16,7 +16,6 @@ public class PlayerController : BaseControllable
     public float jumpForce = 8f;
     public float gravity = -9.81f;
 
-    private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
     private GameObject groundObj;
