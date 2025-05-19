@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem.Interactions;
-using UnityEngine.UIElements;
 
 public class DreamBodyController : BaseControllable
 {
@@ -15,7 +13,7 @@ public class DreamBodyController : BaseControllable
     private Vector2 moveInput;
     private bool jumpInput;
 
-    [SerializeField]    
+    [SerializeField]
     private Vector3 origin;
 
     void Awake()
@@ -37,7 +35,7 @@ public class DreamBodyController : BaseControllable
         controls.Player.UseLeftSkill.performed += ctx =>
         {
             Debug.Log($"ctx interaction is {ctx.interaction}");
-            if(ctx.interaction is MultiTapInteraction)
+            if (ctx.interaction is MultiTapInteraction)
             {
                 Debug.Log("Dreambody Left multiTaped");
                 ReturnToOrigin();
@@ -45,13 +43,15 @@ public class DreamBodyController : BaseControllable
         };
         controls.Player.UseRightSkill.performed += ctx =>
         {
-            if(ctx.interaction is TapInteraction)
+            if (ctx.interaction is TapInteraction)
             {
                 Debug.Log("Right taped");
-                EventManager.TriggerSwitchControl(GameManager.Instance.PrevControllable);
+                OnFinishMission();   // testing only
             }
         };
-        
+
+
+
     }
 
     void OnDisable()
@@ -134,13 +134,20 @@ public class DreamBodyController : BaseControllable
         isGrounded = Physics.SphereCast(sphereOrigin, sphereRadius, Vector3.down, out RaycastHit hit, groundCheckDistance, groundLayer);
     }
 
-    void ReturnToOrigin() {
+    void ReturnToOrigin()
+    {
         Debug.Log($"Current Location:{transform.position}");
         controller.enabled = false;
         transform.position = origin;
         transform.rotation = Quaternion.identity;
         controller.enabled = true;
         Debug.Log($"after: Current Location:{transform.position}");
+    }
+
+    public void OnFinishMission()
+    {
+        EventManager.Instance.TriggerSwitchControl(ControllableManager.Instance.GetPlayerControllable());
+        EventManager.Instance.TriggerMissionFinish();
     }
 
 }

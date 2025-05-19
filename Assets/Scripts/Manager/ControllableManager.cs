@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class ControllableManager : BaseManager<ControllableManager>
 {
-    [SerializeField] 
+    [SerializeField]
     private PlayerController player;                // Always stores the player
-    [SerializeField]    
+    [SerializeField]
     private BaseControllable currentControllable;   // Keep track of current one
     [SerializeField]
     private BaseControllable previousControllable;  // Keep track of previous one
@@ -18,6 +18,12 @@ public class ControllableManager : BaseManager<ControllableManager>
     {
         base.OnStart();
         Init();
+        EventManager.Instance.OnSwitchControl += ChangeControllable;
+    }
+
+    protected override void OnDestroy()
+    {
+        EventManager.Instance.OnSwitchControl -= ChangeControllable;
     }
 
     protected override void OnReset()
@@ -26,18 +32,18 @@ public class ControllableManager : BaseManager<ControllableManager>
         Init();
     }
 
-    private void Init() 
+    private void Init()
     {
         player = FindObjectOfType<PlayerController>();
         currentControllable = player;   // The player should be always be the first controllable.
         previousControllable = null;
     }
 
-    public void ChangeControllable(BaseControllable newControllable) 
+    public void ChangeControllable(BaseControllable newControllable)
     {
         if (newControllable == null || currentControllable == newControllable) return;
 
-        if (currentControllable != null) 
+        if (currentControllable != null)
         {
             currentControllable.SetControl(false);
             currentControllable.DisableControl();
@@ -51,4 +57,8 @@ public class ControllableManager : BaseManager<ControllableManager>
         currentControllable.EnableControl();
     }
 
+    public BaseControllable GetPlayerControllable()
+    {
+        return player;
+    }
 }

@@ -22,12 +22,12 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable() 
     {
-        EventManager.OnSwitchControl += SetCurrControllable;
+        // EventManager.OnSwitchControl += SetCurrControllable;
     }
 
     private void OnDisable() 
     {
-        EventManager.OnSwitchControl -= SetCurrControllable;
+        // EventManager.OnSwitchControl -= SetCurrControllable;
     }
 
     public void SetCurrControllable(BaseControllable newTarget) {

@@ -3,10 +3,13 @@ using UnityEngine;
 
 public class EventManager : BaseManager<EventManager>
 {
-    public static Action<BaseControllable> OnSwitchControl;
+    public event Action<BaseControllable> OnSwitchControl;
+    public event Action OnDreamBodyFinish;
 
-    public static void TriggerSwitchControl(BaseControllable newTarget) 
+    public void TriggerSwitchControl(BaseControllable newTarget)
     {
         OnSwitchControl?.Invoke(newTarget);
     }
+
+    public void TriggerMissionFinish() => OnDreamBodyFinish?.Invoke();
 }

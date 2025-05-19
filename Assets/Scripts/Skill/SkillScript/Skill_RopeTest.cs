@@ -44,7 +44,7 @@ public class Skill_RopeTest : EquipSkillBase
         if (dreamBody)
         {
             dreamBody.GetComponentInChildren<CinemachineFreeLook>().Priority = 11;
-            EventManager.TriggerSwitchControl(dreamBody);
+            EventManager.Instance.TriggerSwitchControl(dreamBody);  // Directly trigger by calling the instance. Could change later
             return true;
         }
 
