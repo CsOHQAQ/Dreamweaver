@@ -1327,6 +1327,7 @@ GameObject:
   - component: {fileID: 441135197}
   - component: {fileID: 441135196}
   - component: {fileID: 441135198}
+  - component: {fileID: 441135199}
   m_Layer: 0
   m_Name: GM
   m_TagString: Untagged
@@ -1375,6 +1376,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8f36a8eabf198747bb185ac517e10c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &441135199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441135195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64d056fc77b70c64a814dafd02bcf0af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  currentControllable: {fileID: 0}
+  previousControllable: {fileID: 0}
+  virtualCamera: {fileID: 0}
 --- !u!1 &446658904
 GameObject:
   m_ObjectHideFlags: 0
