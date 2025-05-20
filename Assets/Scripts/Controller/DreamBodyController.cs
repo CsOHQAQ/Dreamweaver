@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem.Interactions;
 
@@ -21,9 +20,15 @@ public class DreamBodyController : BaseControllable
         controls = new InputSystem.PlayerInput();
         controller = GetComponent<CharacterController>();
         gameObject.layer = LayerMask.NameToLayer("Dream Body");
+        lookAt = transform.Find("LookAtPoint");
 
         //DEBUG: Test add skill rope
         Physics.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Passable Wall"));
+    }
+
+    protected override void Start()
+    {
+        controls.Disable();
     }
 
     void OnEnable()
@@ -45,7 +50,7 @@ public class DreamBodyController : BaseControllable
         {
             if (ctx.interaction is TapInteraction)
             {
-                Debug.Log("Right taped");
+                Debug.Log("DreamBody Right taped");
                 OnFinishMission();   // testing only
             }
         };

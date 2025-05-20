@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 
 public class ControllableManager : BaseManager<ControllableManager>
@@ -9,9 +10,13 @@ public class ControllableManager : BaseManager<ControllableManager>
     [SerializeField]
     private BaseControllable previousControllable;  // Keep track of previous one
 
+    [SerializeField]
+    private CinemachineVirtualCamera virtualCamera;
+
     void Start()
     {
         OnStart();
+        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
     }
 
     protected override void OnStart()
@@ -49,10 +54,10 @@ public class ControllableManager : BaseManager<ControllableManager>
             currentControllable.DisableControl();
         }
         previousControllable = currentControllable;
-        // TODO: Update camera logic
 
         currentControllable = newControllable;
-        // TODO: Update camera logic
+        virtualCamera.LookAt = currentControllable.getLookAt();
+        virtualCamera.Follow = currentControllable.getLookAt();
         currentControllable.SetControl(true);
         currentControllable.EnableControl();
     }
