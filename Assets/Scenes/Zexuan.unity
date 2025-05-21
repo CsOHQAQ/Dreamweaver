@@ -3959,6 +3959,7 @@ GameObject:
   - component: {fileID: 1449520391}
   - component: {fileID: 1449520393}
   - component: {fileID: 1449520394}
+  - component: {fileID: 1449520395}
   m_Layer: 0
   m_Name: Player Camera
   m_TagString: Untagged
@@ -4084,6 +4085,21 @@ MonoBehaviour:
   maximumDistance: 6
   smoothing: 100
   zoomSensitivity: 1
+--- !u!114 &1449520395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449520389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce2957003fe1b524388e7a110bf86b9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blendTime: 1
+  camera: {fileID: 1449520392}
+  currLookAt: {fileID: 1908356599}
 --- !u!1 &1474977641
 GameObject:
   m_ObjectHideFlags: 0
@@ -5395,6 +5411,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 896590893}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1908356599
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1908356600}
+  m_Layer: 0
+  m_Name: DummyLookAt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1908356600
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908356599}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.0799999, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1919226282
 GameObject:
@@ -12319,3 +12366,4 @@ SceneRoots:
   - {fileID: 2135746711}
   - {fileID: 142069700}
   - {fileID: 1801322670258754826}
+  - {fileID: 1908356600}

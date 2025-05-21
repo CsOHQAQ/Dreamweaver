@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Cinemachine;
 using UnityEngine;
 
@@ -56,6 +57,9 @@ public class ControllableManager : BaseManager<ControllableManager>
         previousControllable = currentControllable;
 
         currentControllable = newControllable;
+
+        // await virtualCamera.GetComponent<CameraSmoothMove>().SmoothBlendTo(currentControllable.getLookAt());
+
         virtualCamera.LookAt = currentControllable.getLookAt();
         virtualCamera.Follow = currentControllable.getLookAt();
         currentControllable.SetControl(true);
