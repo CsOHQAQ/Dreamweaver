@@ -17,7 +17,7 @@ public class CameraSmoothMove : MonoBehaviour
         currLookAt.SetActive(false);
     }
 
-    public async Task SmoothBlendTo(Transform newTarget)
+    public void SmoothBlendTo(Transform newTarget)
     {
         ActiveDummy();
         if (blendingCoroutine != null)
@@ -25,13 +25,11 @@ public class CameraSmoothMove : MonoBehaviour
             StopCoroutine(blendingCoroutine);
             blendingCoroutine = null;
         }
-        var tcs = new TaskCompletionSource<bool>();
-        blendingCoroutine = StartCoroutine(SmoothBlend(newTarget, tcs));
-        await tcs.Task;
+        blendingCoroutine = StartCoroutine(SmoothBlend(newTarget));
         blendingCoroutine = null;
     }
 
-    private IEnumerator SmoothBlend(Transform target, TaskCompletionSource<bool> tcs)
+    private IEnumerator SmoothBlend(Transform target)
     {
         Vector3 currLookAtPos = currLookAt.transform.position;
         Vector3 targetPos = target.position;
@@ -48,16 +46,16 @@ public class CameraSmoothMove : MonoBehaviour
         }
 
         currLookAt.transform.position = targetPos;
-        tcs.SetResult(true);
+        EventManager.Instance.TriggerCameraBlendFinish();
     }
 
-    void ActiveDummy()
+    public void ActiveDummy()
     {
         currLookAt.SetActive(true);
         currLookAt.transform.position = camera.LookAt.position;
     }
 
-    void DeactiveDummy()
+    public void DeactiveDummy()
     {
         currLookAt.SetActive(false);
     }

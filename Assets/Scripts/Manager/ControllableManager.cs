@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Cinemachine;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 public class ControllableManager : BaseManager<ControllableManager>
@@ -25,11 +26,13 @@ public class ControllableManager : BaseManager<ControllableManager>
         base.OnStart();
         Init();
         EventManager.Instance.OnSwitchControl += ChangeControllable;
+        EventManager.Instance.OnCameraBlendFinish += ActivateCurrControllable;
     }
 
     protected override void OnDestroy()
     {
         EventManager.Instance.OnSwitchControl -= ChangeControllable;
+        EventManager.Instance.OnCameraBlendFinish -= ActivateCurrControllable;
     }
 
     protected override void OnReset()
@@ -58,16 +61,20 @@ public class ControllableManager : BaseManager<ControllableManager>
 
         currentControllable = newControllable;
 
-        // await virtualCamera.GetComponent<CameraSmoothMove>().SmoothBlendTo(currentControllable.getLookAt());
-
-        virtualCamera.LookAt = currentControllable.getLookAt();
-        virtualCamera.Follow = currentControllable.getLookAt();
-        currentControllable.SetControl(true);
-        currentControllable.EnableControl();
+        virtualCamera.GetComponent<CameraSmoothMove>().SmoothBlendTo(currentControllable.getLookAt());
     }
 
     public BaseControllable GetPlayerControllable()
     {
         return player;
+    }
+
+    private void ActivateCurrControllable()
+    {
+        virtualCamera.LookAt = currentControllable.getLookAt();
+        virtualCamera.Follow = currentControllable.getLookAt();
+        currentControllable.SetControl(true);
+        currentControllable.EnableControl();
+        virtualCamera.GetComponent<CameraSmoothMove>().DeactiveDummy();
     }
 }
