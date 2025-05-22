@@ -69,11 +69,9 @@ public class DreamBodyController : BaseControllable
         CheckIsGrounded();
         ApplyGravity();
 
-        if (isControlled)
-        {
-            HandleMovement();
-            HandleJump();
-        }
+        HandleMovement();
+        HandleJump();
+
         ApplyMovement();
     }
 

@@ -112,11 +112,8 @@ public class PlayerController : BaseControllable
         CheckIsGrounded();
         ApplyGravity();
 
-        if (isControlled)
-        {
-            HandleMovement();
-            HandleJump();
-        }
+        HandleMovement();
+        HandleJump();
 
         foreach (var item in isUsingSkills)
         {
