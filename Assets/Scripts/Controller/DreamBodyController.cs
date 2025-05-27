@@ -147,7 +147,7 @@ public class DreamBodyController : BaseControllable
         Debug.Log($"after: Current Location:{transform.position}");
     }
 
-    public void OnFinishMission()
+    public virtual void OnFinishMission()
     {
         EventManager.Instance.TriggerSwitchControl(ControllableManager.Instance.GetPlayerControllable());
         EventManager.Instance.TriggerMissionFinish();
