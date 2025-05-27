@@ -12,6 +12,19 @@ public abstract class EquipSkillBase
     protected float CDTimer;
 
     public bool CanUse;
+    protected List<LayerMask> _detectLayers=new List<LayerMask>();
+    public int DetectLayer
+    {
+        get
+        {
+            LayerMask layers=0;
+            foreach (LayerMask layerMask in _detectLayers)
+            {
+                layers += 1<<layerMask;
+            }
+            return layers;
+        }
+    }
 
 
     protected PlayerController player;
