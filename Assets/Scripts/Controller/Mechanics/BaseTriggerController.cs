@@ -5,6 +5,7 @@ using UnityEngine;
 public class BaseTriggerController : MonoBehaviour
 {
     [SerializeField] private DreamBodyController dreamBody;
+    [SerializeField] protected GameObject mechanicGameObj;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +29,7 @@ public class BaseTriggerController : MonoBehaviour
         {
             dreamBody.MissionAccomplished -= TriggerMechanic;
             dreamBody.OnBeforeDisable -= UnsubEvents;
+            Debug.Log("Unsubed");
         }
     }
 }

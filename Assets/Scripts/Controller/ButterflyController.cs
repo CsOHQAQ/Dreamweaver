@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ButterflyController : DreamBodyController
@@ -14,6 +11,6 @@ public class ButterflyController : DreamBodyController
     public override void OnFinishMission()
     {
         base.OnFinishMission();
-        gameObject.SetActive(false);
+        FinishDreambody();
     }
 }

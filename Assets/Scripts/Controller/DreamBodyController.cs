@@ -57,15 +57,12 @@ public class DreamBodyController : BaseControllable
             }
         };
 
-        EventManager.Instance.OnDreamBodyFinish += FinishDreambody;
-
     }
 
     void OnDisable()
     {
         controls.Disable();
         OnBeforeDisable?.Invoke();
-        EventManager.Instance.OnDreamBodyFinish -= FinishDreambody;
     }
 
     protected override void Update()
@@ -156,12 +153,12 @@ public class DreamBodyController : BaseControllable
         EventManager.Instance.TriggerSwitchControl(ControllableManager.Instance.GetPlayerControllable());
         EventManager.Instance.TriggerMissionFinish();
         MissionAccomplished?.Invoke();
-        OnBeforeDisable?.Invoke();
     }
 
     public void FinishDreambody()
     {
-        // TODO
+        OnBeforeDisable?.Invoke();
+        gameObject.SetActive(false);
     }
 
 }
