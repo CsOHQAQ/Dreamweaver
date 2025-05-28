@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem.Interactions;
 
@@ -14,6 +15,8 @@ public class DreamBodyController : BaseControllable
 
     [SerializeField]
     private Vector3 origin;
+    public event Action MissionAccomplished = () => Debug.Log("Dreambody mission Finished called");
+    public event Action OnBeforeDisable;
 
     void Awake()
     {
@@ -21,14 +24,13 @@ public class DreamBodyController : BaseControllable
         controller = GetComponent<CharacterController>();
         gameObject.layer = LayerMask.NameToLayer("Dream Body");
         lookAt = transform.Find("LookAtPoint");
-
-        //DEBUG: Test add skill rope
         Physics.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Passable Wall"));
     }
 
     protected override void Start()
     {
         controls.Disable();
+        
     }
 
     void OnEnable()
@@ -55,13 +57,15 @@ public class DreamBodyController : BaseControllable
             }
         };
 
-
+        EventManager.Instance.OnDreamBodyFinish += FinishDreambody;
 
     }
 
     void OnDisable()
     {
         controls.Disable();
+        OnBeforeDisable?.Invoke();
+        EventManager.Instance.OnDreamBodyFinish -= FinishDreambody;
     }
 
     protected override void Update()
@@ -151,6 +155,13 @@ public class DreamBodyController : BaseControllable
     {
         EventManager.Instance.TriggerSwitchControl(ControllableManager.Instance.GetPlayerControllable());
         EventManager.Instance.TriggerMissionFinish();
+        MissionAccomplished?.Invoke();
+        OnBeforeDisable?.Invoke();
+    }
+
+    public void FinishDreambody()
+    {
+        // TODO
     }
 
 }
