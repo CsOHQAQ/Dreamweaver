@@ -61,7 +61,8 @@ public class RopeObject : MonoBehaviour
         line.SetPosition(1, Vector3.Lerp(line.GetPosition(1), connect2.GetClosestSocket(clickPos2).position, Speed* Time.deltaTime));
 
         Vector3 pos0= line.GetPosition(0),pos1=line.GetPosition(1);
-        capCollider.transform.position = (pos0 + pos1) / 2;
+        transform.position = (pos0 + pos1) / 2;
+        // capCollider.transform.position = (pos0 + pos1) / 2;
         capCollider.height=Vector3.Distance(pos0,pos1);
         capCollider.transform.rotation = Quaternion.FromToRotation(Vector3.up,pos1-pos0);
 
