@@ -153,6 +153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMoving: 0
   isPulling: 0
+  PullForce: 10
 --- !u!54 &2345314775680732661
 Rigidbody:
   m_ObjectHideFlags: 0

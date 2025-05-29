@@ -53,7 +53,7 @@ public class Skill_RopeTest : EquipSkillBase
             case Stage.NotConnected:
                 #region Init Rope
                 ropeObject = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/RopeTest")).GetComponent<RopeObject>();
-                ropeObject.Init(ThrowSpeed, 100, 1000, hit.point, obj, player.transform.position, player.GetComponent<AttachableObject>(), () =>
+                ropeObject.Init(ThrowSpeed, 100, hit.point, obj, player.transform.position, player.GetComponent<AttachableObject>(), () =>
                 {
                     OnCanceled();
                 });
