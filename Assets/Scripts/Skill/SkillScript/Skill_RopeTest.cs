@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class Skill_RopeTest : EquipSkillBase
@@ -39,6 +40,14 @@ public class Skill_RopeTest : EquipSkillBase
         AttachableObject obj = hit.transform.GetComponent<AttachableObject>();
         if (obj == null)
             return false;
+
+        //Face direction judge
+        float facingAngle = Vector3.Angle(obj.transform.position - player.transform.position, player.transform.forward);
+        if (facingAngle > 30f)
+        {
+            Debug.Log($"Skill used failed! Angle {facingAngle}");
+            return false;
+        }
 
         var dreamBody = hit.transform.GetComponent<DreamBodyController>();
         if (dreamBody)
