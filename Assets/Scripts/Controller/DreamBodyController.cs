@@ -56,7 +56,6 @@ public class DreamBodyController : BaseControllable
                 OnFinishMission();   // testing only
             }
         };
-
     }
 
     void OnDisable()
@@ -157,7 +156,6 @@ public class DreamBodyController : BaseControllable
 
     public void FinishDreambody()
     {
-        OnBeforeDisable?.Invoke();
         gameObject.SetActive(false);
     }
 

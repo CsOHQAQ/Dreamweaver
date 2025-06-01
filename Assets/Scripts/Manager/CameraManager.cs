@@ -1,18 +1,16 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using System;
 
 public class CameraManager : BaseManager<CameraManager>
 {
-    public static CameraManager instance;
     public CinemachineVirtualCamera topdownCamera;
     public CinemachineVirtualCamera oblique45Camera;
     public CinemachineVirtualCamera currentCamera;
 
     [Tooltip("The Camera Transition speed")]
-    [SerializeField][Range(0f, 10f)] private float blendTime = 1.0f;
+    [SerializeField][Range(0f, 10f)] private float moveSpeed = 1.0f;
     [SerializeField] private GameObject currLookAt;
 
     private Coroutine blendingCoroutine = null;
@@ -72,6 +70,7 @@ public class CameraManager : BaseManager<CameraManager>
     public void ActiveDummy()
     {
         currLookAt.SetActive(true);
+        Debug.Log(currentCamera.Follow.position);
         currLookAt.transform.position = currentCamera.Follow.position;
     }
 
@@ -105,13 +104,15 @@ public class CameraManager : BaseManager<CameraManager>
     {
         Vector3 currLookAtPos = currLookAt.transform.position;
         Vector3 targetPos = target.position;
-        float elapsed = 0.0f;
         SetUpFollowPoint(currLookAt.transform);
 
-        while (elapsed < blendTime)
+        while (Vector3.Distance(currLookAt.transform.position, targetPos) > 0.05f)
         {
-            currLookAt.transform.position = Vector3.Lerp(currLookAtPos, targetPos, elapsed / blendTime);
-            elapsed += Time.deltaTime;
+            currLookAt.transform.position = Vector3.MoveTowards(
+                currLookAt.transform.position,
+                targetPos,
+                moveSpeed * Time.deltaTime
+            );
             yield return null;
         }
 

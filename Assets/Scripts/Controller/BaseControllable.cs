@@ -40,5 +40,5 @@ public class BaseControllable : MonoBehaviour
         controls.Enable();
     }
     
-    public Transform getLookAt() => lookAt;
+    public Transform GetLookAt() => lookAt;
 }
