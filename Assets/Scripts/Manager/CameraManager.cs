@@ -2,25 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using System;
 
-public class CameraManager : MonoBehaviour
+public class CameraManager : BaseManager<CameraManager>
 {
     public static CameraManager instance;
     public CinemachineVirtualCamera topdownCamera;
     public CinemachineVirtualCamera oblique45Camera;
     public CinemachineVirtualCamera currentCamera;
 
-    private void Awake()
+    [Tooltip("The Camera Transition speed")]
+    [SerializeField][Range(0f, 10f)] private float blendTime = 1.0f;
+    [SerializeField] private GameObject currLookAt;
+
+    private Coroutine blendingCoroutine = null;
+
+
+    void Start()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        currLookAt.SetActive(false);
         currentCamera = topdownCamera;
     }
 
@@ -68,4 +68,60 @@ public class CameraManager : MonoBehaviour
             currentCamera = oblique45Camera;
         }
     }
+
+    public void ActiveDummy()
+    {
+        currLookAt.SetActive(true);
+        currLookAt.transform.position = currentCamera.Follow.position;
+    }
+
+    public void DeactiveDummy()
+    {
+        currLookAt.SetActive(false);
+    }
+
+    /// <summary>
+    /// Smoothly blend the current and the idle camera to new controllable
+    /// </summary>
+    /// <param name="newTarget">The new controllable look at point</param>
+    public void SmoothBlendTo(Transform newTarget)
+    {
+        ActiveDummy();
+        if (blendingCoroutine != null)
+        {
+            StopCoroutine(blendingCoroutine);
+            blendingCoroutine = null;
+        }
+        blendingCoroutine = StartCoroutine(SmoothBlend(newTarget));
+        blendingCoroutine = null;
+    }
+
+    /// <summary>
+    /// Corresponding coroutine for the blending
+    /// </summary>
+    /// <param name="target">The new controllable look at point</param>
+    /// <returns>IEnumerator for coroutine</returns>
+    private IEnumerator SmoothBlend(Transform target)
+    {
+        Vector3 currLookAtPos = currLookAt.transform.position;
+        Vector3 targetPos = target.position;
+        float elapsed = 0.0f;
+        SetUpFollowPoint(currLookAt.transform);
+
+        while (elapsed < blendTime)
+        {
+            currLookAt.transform.position = Vector3.Lerp(currLookAtPos, targetPos, elapsed / blendTime);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        currLookAt.transform.position = targetPos;
+        EventManager.Instance.TriggerCameraBlendFinish();
+    }
+
+    public void SetUpFollowPoint(Transform target)
+    {
+        topdownCamera.Follow = target;
+        oblique45Camera.Follow = target;
+    }    
 }

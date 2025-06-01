@@ -12,13 +12,9 @@ public class ControllableManager : BaseManager<ControllableManager>
     [SerializeField]
     private BaseControllable previousControllable;  // Keep track of previous one
 
-    [SerializeField]
-    private CinemachineVirtualCamera virtualCamera;
-
     void Start()
     {
         OnStart();
-        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
     }
 
     protected override void OnStart()
@@ -61,7 +57,8 @@ public class ControllableManager : BaseManager<ControllableManager>
 
         currentControllable = newControllable;
 
-        virtualCamera.GetComponent<CameraSmoothMove>().SmoothBlendTo(currentControllable.getLookAt());
+        Debug.Log($"Changing to {newControllable.name}");
+        CameraManager.Instance.SmoothBlendTo(currentControllable.getLookAt());
     }
 
     public BaseControllable GetPlayerControllable()
@@ -71,10 +68,9 @@ public class ControllableManager : BaseManager<ControllableManager>
 
     private void ActivateCurrControllable()
     {
-        virtualCamera.LookAt = currentControllable.getLookAt();
-        virtualCamera.Follow = currentControllable.getLookAt();
+        CameraManager.Instance.SetUpFollowPoint(currentControllable.getLookAt());
         currentControllable.SetControl(true);
         currentControllable.EnableControl();
-        virtualCamera.GetComponent<CameraSmoothMove>().DeactiveDummy();
+        CameraManager.Instance.DeactiveDummy();
     }
 }
