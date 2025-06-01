@@ -4,7 +4,7 @@ using UnityEngine;
 public class EventManager : BaseManager<EventManager>
 {
     public event Action<BaseControllable> OnSwitchControl;
-    public event Action OnDreamBodyFinish = () => Debug.Log("Finished");
+    public event Action OnDreamBodyFinish;
 
     public event Action OnCameraBlendFinish;
 

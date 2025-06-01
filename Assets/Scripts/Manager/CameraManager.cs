@@ -18,8 +18,9 @@ public class CameraManager : BaseManager<CameraManager>
 
     void Start()
     {
-        currLookAt.SetActive(false);
         currentCamera = topdownCamera;
+        currLookAt.transform.position = currentCamera.Follow.position;
+        
     }
 
     private void Update()
@@ -27,13 +28,13 @@ public class CameraManager : BaseManager<CameraManager>
         if (Input.GetKeyDown(KeyCode.C))
         {
             TopdownCamera();
-            Debug.Log("Topdown Camera Activated");
+            // Debug.Log("Topdown Camera Activated");
         }
 
         if (Input.GetKeyDown(KeyCode.V))
         {
             Oblique45Camera();
-            Debug.Log("Oblique 45 Camera Activated");
+            // Debug.Log("Oblique 45 Camera Activated");
         }
 
         if (Input.GetKeyDown(KeyCode.B))
@@ -70,7 +71,6 @@ public class CameraManager : BaseManager<CameraManager>
     public void ActiveDummy()
     {
         currLookAt.SetActive(true);
-        Debug.Log(currentCamera.Follow.position);
         currLookAt.transform.position = currentCamera.Follow.position;
     }
 
@@ -90,6 +90,7 @@ public class CameraManager : BaseManager<CameraManager>
         {
             StopCoroutine(blendingCoroutine);
             blendingCoroutine = null;
+            Debug.Log("ha");
         }
         blendingCoroutine = StartCoroutine(SmoothBlend(newTarget));
         blendingCoroutine = null;

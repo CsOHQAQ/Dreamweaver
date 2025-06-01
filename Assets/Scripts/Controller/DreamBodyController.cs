@@ -15,7 +15,7 @@ public class DreamBodyController : BaseControllable
 
     [SerializeField]
     private Vector3 origin;
-    public event Action MissionAccomplished = () => Debug.Log("Dreambody mission Finished called");
+    public event Action MissionAccomplished;
     public event Action OnBeforeDisable;
 
     void Awake()
