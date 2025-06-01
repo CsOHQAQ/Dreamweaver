@@ -18,9 +18,8 @@ public class CameraManager : BaseManager<CameraManager>
 
     void Start()
     {
+        currLookAt.SetActive(false);
         currentCamera = topdownCamera;
-        currLookAt.transform.position = currentCamera.Follow.position;
-        
     }
 
     private void Update()

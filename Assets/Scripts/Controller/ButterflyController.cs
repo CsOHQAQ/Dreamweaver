@@ -11,6 +11,6 @@ public class ButterflyController : DreamBodyController
     public override void OnFinishMission()
     {
         base.OnFinishMission();
-        // FinishDreambody();
+        FinishDreambody();
     }
 }
