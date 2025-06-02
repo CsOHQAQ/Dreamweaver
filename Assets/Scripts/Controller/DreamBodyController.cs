@@ -8,15 +8,15 @@ public class DreamBodyController : BaseControllable
     public float rotationSpeed = 10f;
     public float jumpForce = 8f;
     public float gravity = -9.81f;
-    private Vector3 velocity;
+    protected Vector3 velocity;
     private bool isGrounded;
-    private Vector2 moveInput;
+    protected Vector2 moveInput;
     private bool jumpInput;
 
     [SerializeField]
     private Vector3 origin;
-    public event Action MissionAccomplished;
-    public event Action OnBeforeDisable;
+    public event Action MissionAccomplished;    // Use as a local event, there will only some mechanics listen to this event
+    public event Action OnBeforeDisable;        // similar as above, trigger before disable to ensure mechanics to unsub this object.
 
     void Awake()
     {
@@ -33,7 +33,7 @@ public class DreamBodyController : BaseControllable
         
     }
 
-    void OnEnable()
+    protected virtual void OnEnable()
     {
         controls.Enable();
         controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
@@ -76,7 +76,7 @@ public class DreamBodyController : BaseControllable
     }
 
     //Handle movement input
-    void HandleMovement()
+    protected virtual void HandleMovement()
     {
         Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
 
@@ -98,7 +98,7 @@ public class DreamBodyController : BaseControllable
     }
 
     //Handle jump input
-    void HandleJump()
+    protected virtual void HandleJump()
     {
         if (isGrounded && jumpInput)
         {
@@ -108,7 +108,7 @@ public class DreamBodyController : BaseControllable
     }
 
     //Apply gravity to the player
-    void ApplyGravity()
+    protected virtual void ApplyGravity()
     {
         if (isGrounded && velocity.y < 0)
         {
@@ -119,7 +119,7 @@ public class DreamBodyController : BaseControllable
     }
 
     //Apply movement to the player
-    void ApplyMovement()
+    protected virtual void ApplyMovement()
     {
         controller.Move(velocity * Time.deltaTime);
     }

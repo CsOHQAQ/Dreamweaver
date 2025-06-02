@@ -4,9 +4,9 @@ using UnityEngine;
 public class EventManager : BaseManager<EventManager>
 {
     public event Action<BaseControllable> OnSwitchControl;
-    public event Action OnDreamBodyFinish;
+    public event Action OnDreamBodyFinish;      // Trigger this when the Dreambody finish the job, can trigger some music etc.
 
-    public event Action OnCameraBlendFinish;
+    public event Action OnCameraBlendFinish;    // Trigger this when camera finish transitioning, this can activate control etc.
 
     public void TriggerSwitchControl(BaseControllable newTarget)
     {

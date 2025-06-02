@@ -82,6 +82,15 @@ namespace InputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OmniMove"",
+                    ""type"": ""Button"",
+                    ""id"": ""459ef995-c308-4b7c-ad8a-72cd0b8c9cac"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -227,6 +236,28 @@ namespace InputSystem
                     ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""20a719aa-879b-4333-9c61-ba4fa8897bcd"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""OmniMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9576eadb-e8d9-4ff2-aac8-2fa5bff5d726"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""OmniMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -264,6 +295,7 @@ namespace InputSystem
             m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
             m_Player_UseLeftSkill = m_Player.FindAction("UseLeftSkill", throwIfNotFound: true);
             m_Player_UseRightSkill = m_Player.FindAction("UseRightSkill", throwIfNotFound: true);
+            m_Player_OmniMove = m_Player.FindAction("OmniMove", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -331,6 +363,7 @@ namespace InputSystem
         private readonly InputAction m_Player_Jump;
         private readonly InputAction m_Player_UseLeftSkill;
         private readonly InputAction m_Player_UseRightSkill;
+        private readonly InputAction m_Player_OmniMove;
         public struct PlayerActions
         {
             private @PlayerInput m_Wrapper;
@@ -341,6 +374,7 @@ namespace InputSystem
             public InputAction @Jump => m_Wrapper.m_Player_Jump;
             public InputAction @UseLeftSkill => m_Wrapper.m_Player_UseLeftSkill;
             public InputAction @UseRightSkill => m_Wrapper.m_Player_UseRightSkill;
+            public InputAction @OmniMove => m_Wrapper.m_Player_OmniMove;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -368,6 +402,9 @@ namespace InputSystem
                 @UseRightSkill.started += instance.OnUseRightSkill;
                 @UseRightSkill.performed += instance.OnUseRightSkill;
                 @UseRightSkill.canceled += instance.OnUseRightSkill;
+                @OmniMove.started += instance.OnOmniMove;
+                @OmniMove.performed += instance.OnOmniMove;
+                @OmniMove.canceled += instance.OnOmniMove;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -390,6 +427,9 @@ namespace InputSystem
                 @UseRightSkill.started -= instance.OnUseRightSkill;
                 @UseRightSkill.performed -= instance.OnUseRightSkill;
                 @UseRightSkill.canceled -= instance.OnUseRightSkill;
+                @OmniMove.started -= instance.OnOmniMove;
+                @OmniMove.performed -= instance.OnOmniMove;
+                @OmniMove.canceled -= instance.OnOmniMove;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -433,6 +473,7 @@ namespace InputSystem
             void OnJump(InputAction.CallbackContext context);
             void OnUseLeftSkill(InputAction.CallbackContext context);
             void OnUseRightSkill(InputAction.CallbackContext context);
+            void OnOmniMove(InputAction.CallbackContext context);
         }
     }
 }
