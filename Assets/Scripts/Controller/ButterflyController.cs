@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 
 public class ButterflyController : DreamBodyController
 {
@@ -11,6 +12,15 @@ public class ButterflyController : DreamBodyController
         controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
         controls.Player.OmniMove.performed += ctx => omniMoveInput = ctx.ReadValue<Vector2>();
         controls.Player.OmniMove.canceled += ctx => omniMoveInput = Vector2.zero;
+
+        controls.Player.UseRightSkill.performed += ctx =>
+        {
+            if (ctx.interaction is TapInteraction)
+            {
+                Debug.Log("DreamBody Right taped");
+                OnFinishMission();   // testing only
+            }
+        };
     }
 
     /// <summary>

@@ -29,6 +29,7 @@ public class BaseTriggerController : MonoBehaviour
         {
             dreamBody.MissionAccomplished -= TriggerMechanic;
             dreamBody.OnBeforeDisable -= UnsubEvents;
+            Debug.Log("Unsub");
         }
     }
 }
