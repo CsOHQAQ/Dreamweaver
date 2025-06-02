@@ -85,12 +85,12 @@ namespace InputSystem
                 },
                 {
                     ""name"": ""OmniMove"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""459ef995-c308-4b7c-ad8a-72cd0b8c9cac"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -238,26 +238,37 @@ namespace InputSystem
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""20a719aa-879b-4333-9c61-ba4fa8897bcd"",
+                    ""name"": ""2D Vector"",
+                    ""id"": ""ef4a8a53-e65b-4701-92bc-059c8e51f680"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OmniMove"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Up"",
+                    ""id"": ""b4d1bda6-945d-4b76-80eb-f4914611c71b"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""OmniMove"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""9576eadb-e8d9-4ff2-aac8-2fa5bff5d726"",
+                    ""name"": ""Down"",
+                    ""id"": ""d72c971b-87c8-4f0a-aa40-9d3f42b51fb6"",
                     ""path"": ""<Keyboard>/ctrl"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""OmniMove"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
                 }
             ]
         }
