@@ -57,7 +57,7 @@ public class ControllableManager : BaseManager<ControllableManager>
 
         currentControllable = newControllable;
 
-        CameraManager.Instance.SmoothBlendTo(currentControllable.GetLookAt());
+        //CameraManager.Instance.SmoothBlendTo(currentControllable.GetLookAt());
     }
 
     public BaseControllable GetPlayerControllable()
@@ -67,9 +67,9 @@ public class ControllableManager : BaseManager<ControllableManager>
 
     private void ActivateCurrControllable()
     {
-        CameraManager.Instance.SetUpFollowPoint(currentControllable.GetLookAt());
+        //CameraManager.Instance.SetUpFollowPoint(currentControllable.GetLookAt());
         currentControllable.SetControl(true);
         currentControllable.EnableControl();
-        CameraManager.Instance.DeactiveDummy();
+        //CameraManager.Instance.DeactiveDummy();
     }
 }
