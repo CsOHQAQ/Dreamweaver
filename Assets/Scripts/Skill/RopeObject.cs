@@ -15,15 +15,14 @@ public class RopeObject : MonoBehaviour
 
 
     Vector3 clickPos1, clickPos2;
-    float PullForce = 5000;
+    public float PullForce;
     private Action DestoryCallback;
     private CapsuleCollider capCollider;
 
-    public void Init(float iSpeed, float iLength,float iPullForce,Vector3 iClickPos1, AttachableObject iConnect1, Vector3 iClickPos2, AttachableObject iConnect2, Action iCallback)
+    public void Init(float iSpeed, float iLength,Vector3 iClickPos1, AttachableObject iConnect1, Vector3 iClickPos2, AttachableObject iConnect2, Action iCallback)
     {
         Speed = iSpeed;
         Length = iLength;
-        PullForce = iPullForce;
         clickPos1 = iClickPos1;
         clickPos2 = iClickPos2;
         connect1 = iConnect1;
@@ -61,7 +60,8 @@ public class RopeObject : MonoBehaviour
         line.SetPosition(1, Vector3.Lerp(line.GetPosition(1), connect2.GetClosestSocket(clickPos2).position, Speed* Time.deltaTime));
 
         Vector3 pos0= line.GetPosition(0),pos1=line.GetPosition(1);
-        capCollider.transform.position = (pos0 + pos1) / 2;
+        transform.position = (pos0 + pos1) / 2;
+        // capCollider.transform.position = (pos0 + pos1) / 2;
         capCollider.height=Vector3.Distance(pos0,pos1);
         capCollider.transform.rotation = Quaternion.FromToRotation(Vector3.up,pos1-pos0);
 
@@ -87,7 +87,7 @@ public class RopeObject : MonoBehaviour
     {
         Debug.Log("Rope Wait for dying");
         yield return new WaitForSeconds(time);
-        OnDestroy();
+        GameObject.Destroy(gameObject);
         yield return null;
     }
 
@@ -139,6 +139,7 @@ public class RopeObject : MonoBehaviour
 
     public void OnDestroy()
     {
+        Debug.Log("Rope starting to destory");
         DestoryCallback();
     }
 

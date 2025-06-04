@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class Skill_RopeTest : EquipSkillBase
@@ -40,6 +41,14 @@ public class Skill_RopeTest : EquipSkillBase
         if (obj == null)
             return false;
 
+        //Face direction judge
+        float facingAngle = Vector3.Angle(obj.transform.position - player.transform.position, player.transform.forward);
+        if (facingAngle > 30f)
+        {
+            Debug.Log($"Skill used failed! Angle {facingAngle}");
+            return false;
+        }
+
         var dreamBody = hit.transform.GetComponent<DreamBodyController>();
         if (dreamBody)
         {
@@ -52,7 +61,7 @@ public class Skill_RopeTest : EquipSkillBase
             case Stage.NotConnected:
                 #region Init Rope
                 ropeObject = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/RopeTest")).GetComponent<RopeObject>();
-                ropeObject.Init(ThrowSpeed, 100, 1000, hit.point, obj, player.transform.position, player.GetComponent<AttachableObject>(), () =>
+                ropeObject.Init(ThrowSpeed, 100, hit.point, obj, player.transform.position, player.GetComponent<AttachableObject>(), () =>
                 {
                     OnCanceled();
                 });
