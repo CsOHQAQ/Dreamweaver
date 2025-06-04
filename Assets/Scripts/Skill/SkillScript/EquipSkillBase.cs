@@ -18,8 +18,10 @@ public abstract class EquipSkillBase
         get
         {
             LayerMask layers=0;
+
             foreach (LayerMask layerMask in _detectLayers)
             {
+                //layers += layerMask.value;
                 layers += 1<<layerMask;
             }
             return layers;
