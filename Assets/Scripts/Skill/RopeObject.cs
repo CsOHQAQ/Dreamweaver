@@ -74,6 +74,16 @@ public class RopeObject : MonoBehaviour
         }
         if (isPulling)
         {
+            //Check gear
+            AO_Gear gear;
+            gear = (connect1 is AO_Gear) ? (AO_Gear)connect1 : (AO_Gear)connect2;
+            if (gear!=null)
+            {
+                if (gear.IsRunning)
+                    Pull(gear.PullForce);
+            }
+
+
             Pull();
         }
     }
@@ -105,18 +115,20 @@ public class RopeObject : MonoBehaviour
         }
     }
 
-    public void Pull()
+    public void Pull(float pullforce = -1)
     {
+        if (pullforce == -1)
+            pullforce = PullForce;
         Vector3 direction = (connect1.GetClosestSocket(clickPos1).position - connect2.GetClosestSocket(clickPos2).position).normalized;
         if (connect1.Movable&& connect1.GetComponent<Rigidbody>()!=null)
         {            
-            connect1.GetComponent<Rigidbody>().AddForce(-direction*PullForce*Time.deltaTime);
+            connect1.GetComponent<Rigidbody>().AddForce(-direction* pullforce * Time.deltaTime);
         }
         if (connect2.Movable && connect2.GetComponent<Rigidbody>() != null)
         {
             //if(!(connect2.tag == "Player"))
             Debug.Log("Test Pull");
-                connect2.GetComponent<Rigidbody>().AddForce(direction * PullForce * Time.deltaTime);
+                connect2.GetComponent<Rigidbody>().AddForce(direction * pullforce * Time.deltaTime);
             
         }
         else
@@ -128,7 +140,7 @@ public class RopeObject : MonoBehaviour
                 {
                     if(player.GetGroundObject().GetComponent<Rigidbody>() != null)
                     {
-                        player.GetGroundObject().GetComponent<Rigidbody>().AddForce(direction * PullForce * Time.deltaTime);
+                        player.GetGroundObject().GetComponent<Rigidbody>().AddForce(direction * pullforce * Time.deltaTime);
                     }
                         
                 }
