@@ -285,6 +285,7 @@ MonoBehaviour:
   Movable: 1
   Sockets:
   - {fileID: 2409441127999806510}
+  isCalledCollisionCallBack: 0
 --- !u!114 &5331619220141025261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,6 +299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runePrefab: {fileID: 2738251777452533531}
+  runeNumber: 1
   UICanvas: {fileID: 3843611933391792159}
   text: {fileID: 8937412143413749385}
   isGenerated: 0

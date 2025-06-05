@@ -1,6 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 
 public class DreamBodyController : BaseControllable
 {
@@ -8,41 +8,60 @@ public class DreamBodyController : BaseControllable
     public float rotationSpeed = 10f;
     public float jumpForce = 8f;
     public float gravity = -9.81f;
-    private CharacterController controller;
-    private Vector3 velocity;
+    protected Vector3 velocity;
     private bool isGrounded;
-    private InputSystem.PlayerInput controls;
-    private Vector2 moveInput;
+    protected Vector2 moveInput;
     private bool jumpInput;
-    private EquipSkillBase[] equipSkills = new EquipSkillBase[2];
-    private Dictionary<EquipSkillBase, bool> isUsingSkills=new Dictionary<EquipSkillBase,bool>();
+
+    [SerializeField]
+    private Vector3 origin;
+    public event Action MissionAccomplished;    // Use as a local event, there will only some mechanics listen to this event
+    public event Action OnBeforeDisable;        // similar as above, trigger before disable to ensure mechanics to unsub this object.
 
     void Awake()
     {
         controls = new InputSystem.PlayerInput();
         controller = GetComponent<CharacterController>();
-
-        //DEBUG: Test add skill rope
+        gameObject.layer = LayerMask.NameToLayer("Dream Body");
+        lookAt = transform.Find("LookAtPoint");
+        Physics.IgnoreLayerCollision(gameObject.layer, LayerMask.NameToLayer("Passable Wall"));
     }
 
-    void OnEnable()
+    protected override void Start()
+    {
+        controls.Disable();
+        
+    }
+
+    protected virtual void OnEnable()
     {
         controls.Enable();
         controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
         controls.Player.Jump.performed += ctx => jumpInput = true;
-        controls.Player.UseLeftSkill.started += ctx => OnBeginUseSkill(0);
-        //controls.Player.UseLeftSkill.performed += ctx => OnUseSkill(0);
-        controls.Player.UseLeftSkill.canceled += ctx => OnEndUseSkill(0);
-
-        controls.Player.UseRightSkill.started += ctx => OnBeginUseSkill(1);
-        controls.Player.UseRightSkill.performed += ctx => OnUseSkill(1);
-        controls.Player.UseRightSkill.canceled += ctx => OnEndUseSkill(1);
+        controls.Player.UseLeftSkill.performed += ctx =>
+        {
+            Debug.Log($"ctx interaction is {ctx.interaction}");
+            if (ctx.interaction is MultiTapInteraction)
+            {
+                Debug.Log("Dreambody Left multiTaped");
+                ReturnToOrigin();
+            }
+        };
+        controls.Player.UseRightSkill.performed += ctx =>
+        {
+            if (ctx.interaction is TapInteraction)
+            {
+                Debug.Log("DreamBody Right taped");
+                OnFinishMission();   // testing only
+            }
+        };
     }
 
     void OnDisable()
     {
         controls.Disable();
+        OnBeforeDisable?.Invoke();
     }
 
     protected override void Update()
@@ -50,26 +69,14 @@ public class DreamBodyController : BaseControllable
         CheckIsGrounded();
         ApplyGravity();
 
-        if (isControlled)
-        {
-            HandleMovement();
-            HandleJump();
-        }
-
-        foreach (var item in isUsingSkills)
-        {
-            Debug.Log($"{item.Key} is {item.Value}");
-            if (item.Value)
-            {
-                item.Key.OnUse();
-            }
-        }
+        HandleMovement();
+        HandleJump();
 
         ApplyMovement();
     }
 
     //Handle movement input
-    void HandleMovement()
+    protected virtual void HandleMovement()
     {
         Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
 
@@ -91,7 +98,7 @@ public class DreamBodyController : BaseControllable
     }
 
     //Handle jump input
-    void HandleJump()
+    protected virtual void HandleJump()
     {
         if (isGrounded && jumpInput)
         {
@@ -101,7 +108,7 @@ public class DreamBodyController : BaseControllable
     }
 
     //Apply gravity to the player
-    void ApplyGravity()
+    protected virtual void ApplyGravity()
     {
         if (isGrounded && velocity.y < 0)
         {
@@ -112,7 +119,7 @@ public class DreamBodyController : BaseControllable
     }
 
     //Apply movement to the player
-    void ApplyMovement()
+    protected virtual void ApplyMovement()
     {
         controller.Move(velocity * Time.deltaTime);
     }
@@ -130,41 +137,26 @@ public class DreamBodyController : BaseControllable
         isGrounded = Physics.SphereCast(sphereOrigin, sphereRadius, Vector3.down, out RaycastHit hit, groundCheckDistance, groundLayer);
     }
 
-    // void OnDrawGizmos()
-    // {
-    //     if (!Application.isPlaying) return;
-    //     float sphereRadius = 0.4f;
-    //     float groundCheckDistance = 0.2f;
-
-    //     float playerHeight = controller.height;
-    //     Vector3 sphereOrigin = transform.position + Vector3.down * (playerHeight / 2 - sphereRadius);
-
-    //     Gizmos.color = Color.white;
-    //     Gizmos.DrawWireSphere(sphereOrigin, sphereRadius);
-
-    //     Vector3 castEnd = sphereOrigin + Vector3.down * groundCheckDistance;
-    //     Gizmos.color = isGrounded ? Color.green : Color.red;
-    //     Gizmos.DrawWireSphere(castEnd, sphereRadius);
-    // }
-    void OnBeginUseSkill(int index)
+    void ReturnToOrigin()
     {
-        // if (index > 2)
-        // {
-        //     Debug.Log("Skill index probably too big?");
-            
-        // }
-        // isUsingSkills[equipSkills[index]] = true;
-        // equipSkills[index].OnBeginUse();
-    }
-    void OnUseSkill(int index)
-    {
-        // Debug.Log($"Skill {index} is being used!");
-        // equipSkills[index].OnUse();
+        Debug.Log($"Current Location:{transform.position}");
+        controller.enabled = false;
+        transform.position = origin;
+        transform.rotation = Quaternion.identity;
+        controller.enabled = true;
+        Debug.Log($"after: Current Location:{transform.position}");
     }
 
-    void OnEndUseSkill(int index)
+    public virtual void OnFinishMission()
     {
-        // isUsingSkills[equipSkills[index]] = false;
-        // equipSkills[index].OnEndUse();
+        EventManager.Instance.TriggerSwitchControl(ControllableManager.Instance.GetPlayerControllable());
+        EventManager.Instance.TriggerMissionFinish();
+        MissionAccomplished?.Invoke();
     }
+
+    public void FinishDreambody()
+    {
+        gameObject.SetActive(false);
+    }
+
 }

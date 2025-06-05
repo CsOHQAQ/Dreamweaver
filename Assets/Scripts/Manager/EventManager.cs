@@ -1,16 +1,18 @@
-using Cinemachine;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EventManager : MonoBehaviour
+public class EventManager : BaseManager<EventManager>
 {
-    public static EventManager Instance { get; private set;}
-    public static Action<BaseControllable> OnSwitchControl;
+    public event Action<BaseControllable> OnSwitchControl;
+    public event Action OnDreamBodyFinish;      // Trigger this when the Dreambody finish the job, can trigger some music etc.
 
-    public static void TriggerSwitchControl(BaseControllable newTarget) 
+    public event Action OnCameraBlendFinish;    // Trigger this when camera finish transitioning, this can activate control etc.
+
+    public void TriggerSwitchControl(BaseControllable newTarget)
     {
         OnSwitchControl?.Invoke(newTarget);
     }
+
+    public void TriggerMissionFinish() => OnDreamBodyFinish?.Invoke();
+    public void TriggerCameraBlendFinish() => OnCameraBlendFinish?.Invoke();
 }

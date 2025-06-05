@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - CinemachineTarget
+  - Triggerable
   - Rune
   - Portal
   layers:
@@ -18,7 +19,7 @@ TagManager:
   - Rope
   - Attachable Object
   - Dream Body
-  - 
+  - Passable Wall
   - 
   - 
   - 

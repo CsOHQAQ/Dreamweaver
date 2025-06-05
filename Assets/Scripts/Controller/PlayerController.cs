@@ -1,12 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
-using UnityEditor.ShaderGraph;
-using System.Globalization;
-using Unity.VisualScripting;
 using UnityEngine.InputSystem.Interactions;
 
 public class PlayerController : BaseControllable
@@ -16,23 +9,23 @@ public class PlayerController : BaseControllable
     public float jumpForce = 8f;
     public float gravity = -9.81f;
 
-    private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
     private GameObject groundObj;
-    private InputSystem.PlayerInput controls;
+
     private Vector2 moveInput;
     private bool jumpInput;
     private EquipSkillBase[] equipSkills = new EquipSkillBase[2];
-    private Dictionary<EquipSkillBase, bool> isUsingSkills=new Dictionary<EquipSkillBase,bool>();
+    private Dictionary<EquipSkillBase, bool> isUsingSkills = new Dictionary<EquipSkillBase, bool>();
 
     void Awake()
     {
         controls = new InputSystem.PlayerInput();
         controller = GetComponent<CharacterController>();
+        lookAt = transform.Find("LookAtPoint");
 
         //DEBUG: Test add skill rope
-        equipSkills[0]=new Skill_RopeTest();
+        equipSkills[0] = new Skill_RopeTest();
         equipSkills[1] = new Skill_Scissor();
         isUsingSkills.Add(equipSkills[0], false);
         isUsingSkills.Add(equipSkills[1], false);
@@ -49,7 +42,7 @@ public class PlayerController : BaseControllable
         controls.Player.UseLeftSkill.performed += ctx =>
         {
             Debug.Log($"ctx interaction is {ctx.interaction}");
-            if(ctx.interaction is MultiTapInteraction)
+            if (ctx.interaction is MultiTapInteraction)
             {
                 Debug.Log("Left multiTaped");
                 //equipSkills[0].OnCanceled();
@@ -63,7 +56,7 @@ public class PlayerController : BaseControllable
             }
             else if (ctx.interaction is TapInteraction)
             {
-                Debug.Log("Left taped"); 
+                Debug.Log("Left taped");
                 RaycastHit hit;
                 if (MouseClickDetector.GetClickObject(equipSkills[0].DetectLayer, out hit))
                     equipSkills[0].OnBeginUse(hit);
@@ -74,7 +67,7 @@ public class PlayerController : BaseControllable
             if (ctx.interaction is HoldInteraction)
             {
                 isUsingSkills[equipSkills[0]] = false;
-            }                
+            }
         };
 
         controls.Player.UseRightSkill.performed += ctx =>
@@ -96,7 +89,7 @@ public class PlayerController : BaseControllable
             {
                 Debug.Log("Left taped");
                 RaycastHit hit;
-                if(MouseClickDetector.GetClickObject(equipSkills[1].DetectLayer,out hit))
+                if (MouseClickDetector.GetClickObject(equipSkills[1].DetectLayer, out hit))
                     equipSkills[1].OnBeginUse(hit);
             }
         };
@@ -119,11 +112,8 @@ public class PlayerController : BaseControllable
         CheckIsGrounded();
         ApplyGravity();
 
-        if (isControlled)
-        {
-            HandleMovement();
-            HandleJump();
-        }
+        HandleMovement();
+        HandleJump();
 
         foreach (var item in isUsingSkills)
         {
@@ -197,14 +187,14 @@ public class PlayerController : BaseControllable
         Vector3 sphereOrigin = transform.position + Vector3.down * (playerHeight / 2 - sphereRadius);
 
         isGrounded = Physics.SphereCast(sphereOrigin, sphereRadius, Vector3.down, out RaycastHit hit, groundCheckDistance, groundLayer);
-        groundObj=isGrounded? hit.collider.gameObject: null;
+        groundObj = isGrounded ? hit.collider.gameObject : null;
         if (groundObj != null)
         {
-            if (groundObj.GetComponent<Rigidbody>()!=null)
+            if (groundObj.GetComponent<Rigidbody>() != null)
             {
                 controller.SimpleMove(groundObj.GetComponent<Rigidbody>().velocity);
             }
-            
+
         }
     }
 
