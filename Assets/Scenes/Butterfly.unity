@@ -305,7 +305,7 @@ GameObject:
   - component: {fileID: 19760393}
   - component: {fileID: 19760392}
   m_Layer: 0
-  m_Name: test
+  m_Name: TestTrigger
   m_TagString: Triggerable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1168,9 +1168,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00452864902d2e046882be1560520345, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topdownCamera: {fileID: 1307984533}
-  oblique45Camera: {fileID: 2093880839}
+  camera1: {fileID: 0}
+  camera2: {fileID: 0}
   currentCamera: {fileID: 0}
+  topdownCameraConfig: {fileID: 0}
+  oblique45CameraConfig: {fileID: 0}
+  testCameraConfig: {fileID: 0}
   moveSpeed: 10
   currLookAt: {fileID: 1908356599}
 --- !u!1 &444660268
