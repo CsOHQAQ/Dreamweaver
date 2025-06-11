@@ -75,15 +75,17 @@ public class RopeObject : MonoBehaviour
         if (isPulling)
         {
             //Check gear
-            AO_Gear gear;
-            gear = (connect1 is AO_Gear) ? (AO_Gear)connect1 : (AO_Gear)connect2;
+            AO_Gear gear=null;
+            if(connect1 is AO_Gear)
+                gear= (AO_Gear)connect1;
+            else if(connect2 is AO_Gear)
+                gear= (AO_Gear)connect2;
+
             if (gear!=null)
             {
                 if (gear.IsRunning)
                     Pull(gear.PullForce);
             }
-
-
             Pull();
         }
     }
@@ -119,6 +121,10 @@ public class RopeObject : MonoBehaviour
     {
         if (pullforce == -1)
             pullforce = PullForce;
+
+        connect1.OnPulled();
+        connect2.OnPulled();
+
         Vector3 direction = (connect1.GetClosestSocket(clickPos1).position - connect2.GetClosestSocket(clickPos2).position).normalized;
         if (connect1.Movable&& connect1.GetComponent<Rigidbody>()!=null)
         {            
