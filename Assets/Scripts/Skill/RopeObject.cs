@@ -114,7 +114,6 @@ public class RopeObject : MonoBehaviour
         }
         if (connect2.Movable && connect2.GetComponent<Rigidbody>() != null)
         {
-            //if(!(connect2.tag == "Player"))
             Debug.Log("Test Pull");
                 connect2.GetComponent<Rigidbody>().AddForce(direction * PullForce * Time.deltaTime);
             

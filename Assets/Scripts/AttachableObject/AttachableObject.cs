@@ -30,7 +30,7 @@ public class AttachableObject : MonoBehaviour
     {
         if (Sockets.Count == 0)
         {
-            Debug.Log($"{gameObject.name}没有可用的socket");
+            Debug.Log($"{gameObject.name}没锟叫匡拷锟矫碉拷socket");
             return null;
         }
         Transform socket = Sockets[0];
@@ -65,6 +65,14 @@ public class AttachableObject : MonoBehaviour
         if (ao != null)
         {
             CollisionEvent(ao);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("BridgeTrigger"))
+        {
+            Debug.Log("Test");
         }
     }
 
