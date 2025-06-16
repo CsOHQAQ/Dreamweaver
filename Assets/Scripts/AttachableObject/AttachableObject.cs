@@ -68,13 +68,14 @@ public class AttachableObject : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("BridgeTrigger"))
-        {
-            Debug.Log("Test");
-        }
-    }
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.CompareTag("BridgeTrigger") && !gameObject.CompareTag("Player"))
+    //     {
+    //         Debug.Log("Now piece enters the trigger");
+
+    //     }
+    // }
 
     protected virtual void CollisionEvent(AttachableObject other)
     {
