@@ -26,14 +26,14 @@ public class RopeObject : MonoBehaviour
         clickPos1 = iClickPos1;
         clickPos2 = iClickPos2;
         connect1 = iConnect1;
+        connect1.RopeObjectSetUp(this);
         connect2 = iConnect2;
+        connect2.RopeObjectSetUp(this);
         DestoryCallback = iCallback;
         capCollider = GetComponentInChildren<CapsuleCollider>();
         line = GetComponent<LineRenderer>();
         isMoving = true;
         isPulling = false;
-
-
     }
 
     public void SetLocation(Vector3 point1,Vector3 point2)
@@ -91,11 +91,17 @@ public class RopeObject : MonoBehaviour
         yield return null;
     }
 
-    public void SetConnect(bool isConnect1,Vector3 iClickPos, AttachableObject iObj)
+    public void InstantBreak()
     {
-        if (isConnect1) 
+        Debug.Log("Rope Destroying.");
+        Destroy(gameObject);
+    }
+
+    public void SetConnect(bool isConnect1, Vector3 iClickPos, AttachableObject iObj)
+    {
+        if (isConnect1)
         {
-            clickPos1= iClickPos;
+            clickPos1 = iClickPos;
             connect1 = iObj;
         }
         else
@@ -139,6 +145,10 @@ public class RopeObject : MonoBehaviour
     public void OnDestroy()
     {
         Debug.Log("Rope starting to destory");
+        connect1.RopeObjectUnset();
+        connect2.RopeObjectUnset();
+        connect1 = null;
+        connect2 = null;
         DestoryCallback();
     }
 
