@@ -6,6 +6,8 @@ using UnityEngine;
 public class AO_BridgePiece : AttachableObject
 {
     private RopeObject ropeObject;
+    [SerializeField] private Transform originPos;
+    [SerializeField][Range(0f, 10f)] private float moveSpeed = 2.0f;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -37,6 +39,15 @@ public class AO_BridgePiece : AttachableObject
 
     private IEnumerator MoveToPosition()
     {
-        yield return null;
+        while (Vector3.Distance(originPos.position, gameObject.transform.position) > 0.05f)
+        {
+            gameObject.transform.position = Vector3.MoveTowards(
+                gameObject.transform.position,
+                originPos.position,
+                moveSpeed * Time.deltaTime
+            );
+            yield return null;
+        }
+        gameObject.transform.position = originPos.position;
     }
 }
