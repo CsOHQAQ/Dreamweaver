@@ -68,6 +68,11 @@ public class AttachableObject : MonoBehaviour
         }
     }
 
+    public virtual void OnPulled()
+    {
+
+    }
+
     protected virtual void CollisionEvent(AttachableObject other)
     {
     }
