@@ -15,6 +15,7 @@ public class AO_BridgePiece : AttachableObject
         {
             CutRope(ropeObject);
             gameObject.layer = LayerMask.NameToLayer("Ground");
+            gameObject.GetComponent<Rigidbody>().useGravity = false;
             StartCoroutine(MoveToPosition());
         }
     }
