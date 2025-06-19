@@ -5,26 +5,15 @@ using UnityEngine;
 
 public class AO_BridgePiece : AttachableObject
 {
-    // public event Action OnTriggerAreaEnter;
     private RopeObject ropeObject;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("BridgeTrigger") && !gameObject.CompareTag("Player"))
         {
-            Debug.Log("Now piece enters the trigger");
             CutRope(ropeObject);
+            gameObject.layer = LayerMask.NameToLayer("Ground");
+            StartCoroutine(MoveToPosition());
         }
     }
 
@@ -44,5 +33,10 @@ public class AO_BridgePiece : AttachableObject
     {
         rope.InstantBreak();
         RopeObjectUnset();
+    }
+
+    private IEnumerator MoveToPosition()
+    {
+        yield return null;
     }
 }
