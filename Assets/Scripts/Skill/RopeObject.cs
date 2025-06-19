@@ -93,7 +93,6 @@ public class RopeObject : MonoBehaviour
 
     public void InstantBreak()
     {
-        Debug.Log("Rope Destroying.");
         Destroy(gameObject);
     }
 

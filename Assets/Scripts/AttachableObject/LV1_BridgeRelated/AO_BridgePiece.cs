@@ -42,7 +42,6 @@ public class AO_BridgePiece : AttachableObject
 
     private void CutRope(RopeObject rope)
     {
-        Debug.Log("Test Destroy");
         rope.InstantBreak();
         RopeObjectUnset();
     }
