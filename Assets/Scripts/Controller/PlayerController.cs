@@ -140,24 +140,7 @@ public class PlayerController : BaseControllable
             velocity.z = move.z * moveSpeed;
         }
 
-        //Check if collide with other
-        RaycastHit hit;
-        Vector3 horizonVel = velocity;
-        horizonVel.y = 0;
-        float rayDistance = horizonVel.magnitude*Time.deltaTime;
-        rayDistance = controller.radius+0.1f;
-        Debug.DrawLine(transform.position + transform.forward * controller.radius, transform.position + transform.forward * controller.radius + horizonVel*rayDistance, Color.red);
-
-        if (Physics.Raycast(transform.position+transform.forward*controller.radius, horizonVel, out hit, rayDistance) || Physics.Raycast(transform.position + transform.right * controller.radius, horizonVel, out hit, rayDistance) || Physics.Raycast(transform.position - transform.right * controller.radius, horizonVel, out hit, rayDistance))
-        {
-            Vector3 blockDir=hit.point - transform.position;
-
-            Debug.DrawLine(transform.position,transform.position+blockDir,Color.green);
-            blockDir.y = 0;
-            velocity = MakeOrthogonalTo(velocity,blockDir);
-        }
-
-            if (isGrounded && move.magnitude > 0.1f)
+        if (isGrounded && move.magnitude > 0.1f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(move);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
@@ -241,15 +224,4 @@ public class PlayerController : BaseControllable
     //     Gizmos.DrawWireSphere(castEnd, sphereRadius);
     // }
 
-    Vector3 MakeOrthogonalTo(Vector3 A, Vector3 B)
-    {
-        if (B == Vector3.zero) 
-            return A;
-
-        Vector3 projection = Vector3.Dot(A, B) / Vector3.Dot(B, B) * B;
-        if(Vector3.Dot(projection,B)>0)
-            return A - projection;
-        else
-            return A;
-    }
 }
