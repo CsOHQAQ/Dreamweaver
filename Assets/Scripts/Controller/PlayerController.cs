@@ -134,13 +134,11 @@ public class PlayerController : BaseControllable
 
         move = Camera.main.transform.TransformDirection(move);
         move.y = 0;
-
         //if (isGrounded)
         {
             velocity.x = move.x * moveSpeed;
             velocity.z = move.z * moveSpeed;
         }
-
 
         if (isGrounded && move.magnitude > 0.1f)
         {
@@ -194,7 +192,6 @@ public class PlayerController : BaseControllable
             {
                 controller.SimpleMove(groundObj.GetComponent<Rigidbody>().velocity);
             }
-
         }
     }
 
@@ -202,6 +199,13 @@ public class PlayerController : BaseControllable
     {
         return groundObj;
     }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Rigidbody hitRb = hit.collider.attachedRigidbody;        
+
+    }
+
 
     // void OnDrawGizmos()
     // {
@@ -219,4 +223,5 @@ public class PlayerController : BaseControllable
     //     Gizmos.color = isGrounded ? Color.green : Color.red;
     //     Gizmos.DrawWireSphere(castEnd, sphereRadius);
     // }
+
 }

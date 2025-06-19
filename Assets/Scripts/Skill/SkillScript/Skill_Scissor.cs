@@ -27,6 +27,7 @@ public class Skill_Scissor : EquipSkillBase
             return false;
         }
 
+        
         Debug.Log($"Scissor Detect:{rope.gameObject}");
         GameObject.Destroy(rope.gameObject);        
 
