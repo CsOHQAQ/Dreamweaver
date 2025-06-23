@@ -7,7 +7,12 @@ public class AO_BridgePiece : AttachableObject
 {
     private RopeObject ropeObject;
     [SerializeField] private Transform originPos;
-    [SerializeField][Range(0f, 10f)] private float moveSpeed = 2.0f;
+    [SerializeField][Range(0f, 1f)] private float smoothTime = 0.3f;
+
+    [SerializeField] private Vector3 velocity = Vector3.zero;
+    private Coroutine moveCoroutine;
+
+    public event Action OnArriveAtOrigin = () => Debug.Log("Move Finished");
 
     private void OnTriggerEnter(Collider other)
     {
@@ -16,7 +21,9 @@ public class AO_BridgePiece : AttachableObject
             CutRope(ropeObject);
             gameObject.layer = LayerMask.NameToLayer("Ground");
             gameObject.GetComponent<Rigidbody>().useGravity = false;
-            StartCoroutine(MoveToPosition());
+            Movable = false;
+            if (moveCoroutine != null) StopCoroutine(moveCoroutine);
+            moveCoroutine = StartCoroutine(MoveToPosition());
         }
     }
 
@@ -40,15 +47,18 @@ public class AO_BridgePiece : AttachableObject
 
     private IEnumerator MoveToPosition()
     {
-        while (Vector3.Distance(originPos.position, gameObject.transform.position) > 0.05f)
+
+        while (Vector3.Distance(originPos.position, gameObject.transform.position) > 0.01f)
         {
-            gameObject.transform.position = Vector3.MoveTowards(
-                gameObject.transform.position,
+            transform.position = Vector3.SmoothDamp(
+                transform.position,
                 originPos.position,
-                moveSpeed * Time.deltaTime
+                ref velocity,
+                smoothTime
             );
             yield return null;
         }
         gameObject.transform.position = originPos.position;
+        OnArriveAtOrigin?.Invoke();
     }
 }

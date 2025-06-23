@@ -45,7 +45,6 @@ public class PlayerController : BaseControllable
             if (ctx.interaction is MultiTapInteraction)
             {
                 Debug.Log("Left multiTaped");
-                //equipSkills[0].OnCanceled();
             }
             else if (ctx.interaction is HoldInteraction)
             {
@@ -75,19 +74,18 @@ public class PlayerController : BaseControllable
             Debug.Log($"ctx interaction is {ctx.interaction}");
             if (ctx.interaction is MultiTapInteraction)
             {
-                Debug.Log("Left multiTaped");
-                //equipSkills[1].OnCanceled();
+                Debug.Log("Right multiTaped");
             }
             else if (ctx.interaction is HoldInteraction)
             {
-                Debug.Log("Left holded");
+                Debug.Log("Right holded");
 
                 isUsingSkills[equipSkills[1]] = true;
                 equipSkills[1].OnUse();
             }
             else if (ctx.interaction is TapInteraction)
             {
-                Debug.Log("Left taped");
+                Debug.Log("Right taped");
                 RaycastHit hit;
                 if (MouseClickDetector.GetClickObject(equipSkills[1].DetectLayer, out hit))
                     equipSkills[1].OnBeginUse(hit);
@@ -117,7 +115,6 @@ public class PlayerController : BaseControllable
 
         foreach (var item in isUsingSkills)
         {
-            //Debug.Log($"{item.Key} is {item.Value}");
             if (item.Value)
             {
                 item.Key.OnUse();
@@ -134,11 +131,9 @@ public class PlayerController : BaseControllable
 
         move = Camera.main.transform.TransformDirection(move);
         move.y = 0;
-        //if (isGrounded)
-        {
-            velocity.x = move.x * moveSpeed;
-            velocity.z = move.z * moveSpeed;
-        }
+
+        velocity.x = move.x * moveSpeed;
+        velocity.z = move.z * moveSpeed;
 
         if (isGrounded && move.magnitude > 0.1f)
         {
