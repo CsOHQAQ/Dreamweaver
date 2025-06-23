@@ -7,6 +7,7 @@ public class AO_Gear : AttachableObject
     public bool IsRunning = true;
     public float RotateSpeed;
     public float PullForce;
+    public float PullSpeed;
     // Update is called once per frame
     void Update()
     {
