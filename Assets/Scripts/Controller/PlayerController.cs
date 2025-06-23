@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 
 public class PlayerController : BaseControllable
@@ -35,73 +36,12 @@ public class PlayerController : BaseControllable
     void OnEnable()
     {
         controls.Enable();
-        controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
-        controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
-        controls.Player.Jump.performed += ctx => jumpInput = true;
-
-        controls.Player.UseLeftSkill.performed += ctx =>
-        {
-            Debug.Log($"ctx interaction is {ctx.interaction}");
-            if (ctx.interaction is MultiTapInteraction)
-            {
-                Debug.Log("Left multiTaped");
-            }
-            else if (ctx.interaction is HoldInteraction)
-            {
-                Debug.Log("Left holded");
-
-                isUsingSkills[equipSkills[0]] = true;
-                equipSkills[0].OnUse();
-            }
-            else if (ctx.interaction is TapInteraction)
-            {
-                Debug.Log("Left taped");
-                RaycastHit hit;
-                if (MouseClickDetector.GetClickObject(equipSkills[0].DetectLayer, out hit))
-                    equipSkills[0].OnBeginUse(hit);
-            }
-        };
-        controls.Player.UseLeftSkill.canceled += ctx =>
-        {
-            if (ctx.interaction is HoldInteraction)
-            {
-                isUsingSkills[equipSkills[0]] = false;
-            }
-        };
-
-        controls.Player.UseRightSkill.performed += ctx =>
-        {
-            Debug.Log($"ctx interaction is {ctx.interaction}");
-            if (ctx.interaction is MultiTapInteraction)
-            {
-                Debug.Log("Right multiTaped");
-            }
-            else if (ctx.interaction is HoldInteraction)
-            {
-                Debug.Log("Right holded");
-
-                isUsingSkills[equipSkills[1]] = true;
-                equipSkills[1].OnUse();
-            }
-            else if (ctx.interaction is TapInteraction)
-            {
-                Debug.Log("Right taped");
-                RaycastHit hit;
-                if (MouseClickDetector.GetClickObject(equipSkills[1].DetectLayer, out hit))
-                    equipSkills[1].OnBeginUse(hit);
-            }
-        };
-        controls.Player.UseRightSkill.canceled += ctx =>
-        {
-            if (ctx.interaction is HoldInteraction)
-            {
-                isUsingSkills[equipSkills[1]] = false;
-            }
-        };
+        SubscribeControls();
     }
 
     void OnDisable()
     {
+        UnsubscribeControls();
         controls.Disable();
     }
 
@@ -197,9 +137,98 @@ public class PlayerController : BaseControllable
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        Rigidbody hitRb = hit.collider.attachedRigidbody;        
+        Rigidbody hitRb = hit.collider.attachedRigidbody;
 
     }
+
+
+
+    #region Input Callback Naming & Sub/Unsubbing
+    private void OnMovePerformed(InputAction.CallbackContext ctx) => moveInput = ctx.ReadValue<Vector2>();
+
+    private void OnMoveCanceled(InputAction.CallbackContext ctx) => moveInput = Vector2.zero;
+
+    private void OnJumpPerformed(InputAction.CallbackContext ctx) => jumpInput = true;
+
+    private void OnLeftSkillPerformed(InputAction.CallbackContext ctx)
+    {
+        Debug.Log($"ctx interaction is {ctx.interaction}");
+        if (ctx.interaction is HoldInteraction)
+        {
+            Debug.Log("Left holded");
+
+            isUsingSkills[equipSkills[0]] = true;
+            equipSkills[0].OnUse();
+        }
+        else if (ctx.interaction is TapInteraction)
+        {
+            Debug.Log("Left taped");
+            RaycastHit hit;
+            if (MouseClickDetector.GetClickObject(equipSkills[0].DetectLayer, out hit))
+                equipSkills[0].OnBeginUse(hit);
+        }
+    }
+
+    private void OnLeftSkillCanceled(InputAction.CallbackContext ctx)
+    {
+        if (ctx.interaction is HoldInteraction) isUsingSkills[equipSkills[0]] = false;
+    }
+
+    private void OnRightSkillPerformed(InputAction.CallbackContext ctx)
+    {
+        Debug.Log($"ctx interaction is {ctx.interaction}");
+        if (ctx.interaction is HoldInteraction)
+        {
+            Debug.Log("Right holded");
+
+            isUsingSkills[equipSkills[1]] = true;
+            equipSkills[1].OnUse();
+        }
+        else if (ctx.interaction is TapInteraction)
+        {
+            Debug.Log("Right taped");
+            RaycastHit hit;
+            if (MouseClickDetector.GetClickObject(equipSkills[1].DetectLayer, out hit))
+                equipSkills[1].OnBeginUse(hit);
+        }
+    }
+
+    private void OnRightSkillCanceled(InputAction.CallbackContext ctx)
+    {
+        if (ctx.interaction is HoldInteraction)
+        {
+            isUsingSkills[equipSkills[1]] = false;
+        }
+    }
+    
+    private void SubscribeControls()
+    {
+        controls.Player.Move.performed += OnMovePerformed;
+        controls.Player.Move.canceled += OnMoveCanceled;
+        controls.Player.Jump.performed += OnJumpPerformed;  // for debug use only
+
+        controls.Player.UseLeftSkill.performed += OnLeftSkillPerformed;
+        controls.Player.UseLeftSkill.canceled += OnLeftSkillCanceled;
+
+        controls.Player.UseRightSkill.performed += OnRightSkillPerformed;
+        controls.Player.UseRightSkill.canceled += OnRightSkillCanceled;
+    }
+
+    private void UnsubscribeControls()
+    {
+        controls.Player.Move.performed -= OnMovePerformed;
+        controls.Player.Move.canceled -= OnMoveCanceled;
+        controls.Player.Jump.performed -= OnJumpPerformed;  // for debug use only
+
+        controls.Player.UseLeftSkill.performed -= OnLeftSkillPerformed;
+        controls.Player.UseLeftSkill.canceled -= OnLeftSkillCanceled;
+
+        controls.Player.UseRightSkill.performed -= OnRightSkillPerformed;
+        controls.Player.UseRightSkill.canceled -= OnRightSkillCanceled;
+    }
+
+    #endregion
+
 
 
     // void OnDrawGizmos()
