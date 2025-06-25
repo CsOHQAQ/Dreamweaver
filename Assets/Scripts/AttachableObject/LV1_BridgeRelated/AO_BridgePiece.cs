@@ -7,7 +7,7 @@ public class AO_BridgePiece : AttachableObject
 {
     private RopeObject ropeObject;
     [SerializeField] private Transform originPos;
-    [SerializeField][Range(0f, 1f)] private float smoothTime = 0.3f;
+    [SerializeField][Range(0f, 5f)] private float smoothTime = 0.3f;
 
     [SerializeField] private Vector3 velocity = Vector3.zero;
     private Coroutine moveCoroutine;
@@ -59,6 +59,7 @@ public class AO_BridgePiece : AttachableObject
             yield return null;
         }
         gameObject.transform.position = originPos.position;
+        velocity = Vector3.zero;
         OnArriveAtOrigin?.Invoke();
     }
 }

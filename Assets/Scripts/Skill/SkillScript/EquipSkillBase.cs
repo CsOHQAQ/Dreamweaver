@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ¸ÃÀà×÷ÎªÍæ¼Ò×°±¸¼¼ÄÜÀàµÄ»ùÀà
+/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½×°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½
 /// </summary>
 
 public abstract class EquipSkillBase
@@ -21,8 +21,7 @@ public abstract class EquipSkillBase
 
             foreach (LayerMask layerMask in _detectLayers)
             {
-                //layers += layerMask.value;
-                layers += 1<<layerMask;
+                layers += 1 << layerMask;
             }
             return layers;
         }
@@ -37,7 +36,6 @@ public abstract class EquipSkillBase
 
     public virtual bool OnBeginUse(object args=null)
     {
-
         return true;
     }
 

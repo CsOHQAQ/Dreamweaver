@@ -8,6 +8,7 @@ public class Skill_Scissor : EquipSkillBase
     {
         _detectLayers = new List<LayerMask>() {
             LayerMask.NameToLayer("Rope"),
+            LayerMask.NameToLayer("Preservable Object"),
         };
     }
     public override void OnEquip(PlayerController iPlayer)
@@ -16,20 +17,29 @@ public class Skill_Scissor : EquipSkillBase
     }
     public override bool OnBeginUse(object args = null)
     {
-        if (args == null)
+        if (args == null) { return false; }
+
+        RaycastHit hit = (RaycastHit)args;
+
+        RopeObject rope = hit.transform.GetComponent<RopeObject>();
+        if (rope)
         {
-            return false;
+            Debug.Log($"Scissor Detect:{rope.gameObject}");
+            rope.InstantBreak(); 
+            return true;
         }
 
-        RopeObject rope= ((RaycastHit)args).transform.GetComponent<RopeObject>();
-        if (rope == null)
+        PreservableObject preservable = hit.transform.GetComponent<PreservableObject>();
+        if (preservable)
         {
-            return false;
+            Debug.Log($"Preserving Object: {preservable.name}");
+            player.Inventory.AddPreservableObject(preservable);
+            preservable.OnPreserved();
+            return true;
         }
 
         
-        Debug.Log($"Scissor Detect:{rope.gameObject}");
-        GameObject.Destroy(rope.gameObject);        
+              
 
         return base.OnBeginUse(args);
     }

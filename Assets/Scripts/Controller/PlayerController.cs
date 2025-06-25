@@ -19,6 +19,8 @@ public class PlayerController : BaseControllable
     private EquipSkillBase[] equipSkills = new EquipSkillBase[2];
     private Dictionary<EquipSkillBase, bool> isUsingSkills = new Dictionary<EquipSkillBase, bool>();
 
+    public PlayerInventory Inventory { get; private set; }
+
     void Awake()
     {
         controls = new InputSystem.PlayerInput();
@@ -31,6 +33,7 @@ public class PlayerController : BaseControllable
         isUsingSkills.Add(equipSkills[0], false);
         isUsingSkills.Add(equipSkills[1], false);
         equipSkills[0].OnEquip(this); equipSkills[1].OnEquip(this);
+        Inventory = GetComponent<PlayerInventory>();
     }
 
     void OnEnable()
