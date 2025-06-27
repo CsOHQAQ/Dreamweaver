@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    private List<PreservableObject> preservedObjects = new();
+    [SerializeField] private List<PreservableObject> preservedObjects = new();
 
     public void AddPreservableObject(PreservableObject preservable)
     {
