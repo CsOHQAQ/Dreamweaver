@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Skill_RopeTest : EquipSkillBase
 {
-    public float Range = 200f;
-    public float ThrowSpeed = 100f;
+    public float DetectRange = 7f;
+    public float MaxLength = 10f;
+    public float ThrowSpeed = 50f;
 
     private RopeObject ropeObject;
     private Stage curStage;
@@ -49,6 +51,13 @@ public class Skill_RopeTest : EquipSkillBase
             return false;
         }
 
+        //Check the range
+        if (Vector3.Distance(obj.transform.position, player.transform.position) > DetectRange)
+        {
+            Debug.Log($"Object out of range! Current range is {Vector3.Distance(obj.transform.position, player.transform.position)}");
+            return false;
+        }
+
         var dreamBody = hit.transform.GetComponent<DreamBodyController>();
         if (dreamBody)
         {
@@ -61,25 +70,40 @@ public class Skill_RopeTest : EquipSkillBase
             case Stage.NotConnected:
                 #region Init Rope
                 ropeObject = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/RopeTest")).GetComponent<RopeObject>();
-                ropeObject.Init(ThrowSpeed, 100, hit.point, obj, player.transform.position, player.GetComponent<AttachableObject>(), () =>
+                if(
+                    ropeObject.Init(ThrowSpeed, MaxLength, hit.point, obj, player.transform.position, player.GetComponent<AttachableObject>(), () =>
+                    {
+                        OnCanceled();
+                    })
+                )
                 {
-                    OnCanceled();
-                });
-                ropeObject.SetLocation(player.transform.position, player.transform.position);
-
+                    
+                    curStage = Stage.OneSide;
+                }
+                else
+                {
+                    return false;
+                }
                 #endregion
 
-                curStage = Stage.OneSide;
+                    break;
 
-                break;
+
             case Stage.OneSide:
                 if (!ropeObject.isMoving)
-                {
-                    ropeObject.SetConnect(false, hit.point, obj.GetComponent<AttachableObject>());
-                    ropeObject.isMoving = true;
-                    ropeObject.isPulling = true;
-                    curStage = Stage.BothSide;
-                    ropeObject.DelayBreak(7);
+                {                    
+                    if(ropeObject.SetConnect(false, hit.point, obj.GetComponent<AttachableObject>()))
+                    {
+                        ropeObject.isMoving = true;
+                        ropeObject.isPulling = true;
+                        curStage = Stage.BothSide;
+                        ropeObject.DelayBreak(7);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    
                 }
                 break;
             case Stage.BothSide:
