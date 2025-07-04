@@ -54,15 +54,15 @@ public class AO_BridgePiece : AttachableObject
         Vector3 originalEuler = transform.eulerAngles;
         while (Vector3.Distance(targetPos.position, gameObject.transform.position) > 0.01f)
         {
-            if (Vector3.Distance(targetPos.position, gameObject.transform.position) > 0.01f)
-            {
-                transform.position = Vector3.SmoothDamp(
-                    transform.position,
-                    targetPos.position,
-                    ref velocity,
-                    smoothTime
-                );
-            }
+            // if (Vector3.Distance(targetPos.position, gameObject.transform.position) > 0.01f)
+            // {
+            transform.position = Vector3.SmoothDamp(
+                transform.position,
+                targetPos.position,
+                ref velocity,
+                smoothTime
+            );
+            // }
 
             // --- Smooth Rotation ---
             float targetY = targetPos.GetComponentInParent<Transform>().eulerAngles.y;
@@ -76,8 +76,8 @@ public class AO_BridgePiece : AttachableObject
             transform.rotation = Quaternion.Euler(originalEuler.x, newY, originalEuler.z);
             yield return null;
         }
-        Debug.Log($"Target angle of y is: {targetPos.GetComponentInParent<Transform>().eulerAngles.y}");
-        // gameObject.transform.SetPositionAndRotation(targetPos.position, Quaternion.LookRotation(targetPos.GetComponentInParent<Transform>().forward));
+
+        transform.rotation = Quaternion.Euler(originalEuler.x, targetPos.GetComponentInParent<Transform>().eulerAngles.y, originalEuler.z);
         velocity = Vector3.zero;
         angleVelocity = 0f;
         OnArriveAtTarget?.Invoke();
