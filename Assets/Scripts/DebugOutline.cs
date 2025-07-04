@@ -6,8 +6,7 @@ public class DebugOutline : MonoBehaviour
 {
     private void OnDrawGizmos()
     {
-        Collider col = GetComponent<Collider>();
-        if (col != null)
+        if (TryGetComponent<BoxCollider>(out var col))
         {
             Gizmos.color = Color.cyan;
             Gizmos.DrawWireCube(col.bounds.center, col.bounds.size);
