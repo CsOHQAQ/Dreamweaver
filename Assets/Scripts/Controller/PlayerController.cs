@@ -13,6 +13,8 @@ public class PlayerController : BaseControllable
     private Vector3 velocity;
     private bool isGrounded;
     private GameObject groundObj;
+    private GameObject lastGroundObj=null;
+    private Vector3 lastGroundPos;
 
     private Vector2 moveInput;
     private bool jumpInput;
@@ -126,10 +128,20 @@ public class PlayerController : BaseControllable
         groundObj = isGrounded ? hit.collider.gameObject : null;
         if (groundObj != null)
         {
+            /*
             if (groundObj.GetComponent<Rigidbody>() != null)
             {
                 controller.SimpleMove(groundObj.GetComponent<Rigidbody>().velocity);
             }
+
+            */
+            if (lastGroundObj == groundObj)
+            {
+                //Debug.Log($"Ground move:{(groundObj.transform.position - lastGroundPos)}");
+                controller.Move((groundObj.transform.position - lastGroundPos));                
+            }
+            lastGroundObj = groundObj;
+            lastGroundPos= groundObj.transform.position;
         }
     }
 

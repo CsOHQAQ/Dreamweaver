@@ -7,9 +7,11 @@ public class RopeObject : MonoBehaviour
 {
     public bool isMoving;
     public bool isPulling;
-
+    
     float Speed;
-    float Length;
+    float MaxLength;
+    [SerializeField]
+    float debug_CurLength;
     LineRenderer line;
     AttachableObject connect1=null, connect2=null;
 
@@ -19,11 +21,10 @@ public class RopeObject : MonoBehaviour
     private Action DestoryCallback;
     private CapsuleCollider capCollider;
 
-    public void Init(float iSpeed, float iLength,Vector3 iClickPos1, AttachableObject iConnect1, Vector3 iClickPos2, AttachableObject iConnect2, Action iCallback)
+    public bool Init(float iSpeed, float iLength,Vector3 iClickPos1, AttachableObject iConnect1, Vector3 iClickPos2, AttachableObject iConnect2, Action iCallback)
     {
         Speed = iSpeed;
-        Length = iLength;
-        clickPos1 = iClickPos1;
+        MaxLength = iLength;
         clickPos2 = iClickPos2;
         connect1 = iConnect1;
         connect1.RopeObjectSetUp(this);
@@ -34,6 +35,8 @@ public class RopeObject : MonoBehaviour
         line = GetComponent<LineRenderer>();
         isMoving = true;
         isPulling = false;
+        SetLocation(connect2.GetClosestSocket(clickPos2).position, connect2.GetClosestSocket(clickPos2).position);
+        return SetConnect(true,clickPos1,iConnect1);
     }
 
     public void SetLocation(Vector3 point1,Vector3 point2)
@@ -55,9 +58,17 @@ public class RopeObject : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
+        debug_CurLength = Vector3.Distance(line.GetPosition(0), line.GetPosition(1));
+        if (Vector3.Distance(line.GetPosition(0), line.GetPosition(1)) > MaxLength)
+        {
+            Debug.Log("Line breaked!");
+            Destroy(gameObject);
+            return;
+        }
         
-        line.SetPosition(0, Vector3.Lerp(line.GetPosition(0), connect1.GetClosestSocket(clickPos1).position,Speed*Time.deltaTime));
-        line.SetPosition(1, Vector3.Lerp(line.GetPosition(1), connect2.GetClosestSocket(clickPos2).position, Speed* Time.deltaTime));
+        line.SetPosition(0, Vector3.MoveTowards(line.GetPosition(0), connect1.GetClosestSocket(clickPos1).position,Speed*Time.deltaTime));
+        line.SetPosition(1, Vector3.MoveTowards(line.GetPosition(1), connect2.GetClosestSocket(clickPos2).position, Speed* Time.deltaTime));
 
         Vector3 pos0= line.GetPosition(0),pos1=line.GetPosition(1);
         transform.position = (pos0 + pos1) / 2;
@@ -108,17 +119,39 @@ public class RopeObject : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void SetConnect(bool isConnect1, Vector3 iClickPos, AttachableObject iObj)
+    public bool SetConnect(bool isConnect1, Vector3 iClickPos, AttachableObject iObj)
     {
         if (isConnect1)
         {
-            clickPos1 = iClickPos;
+            /*
+             * Check if blocked
+            RaycastHit hit;
+            Physics.Raycast(connect2.transform.position,iObj.transform.position-connect2.transform.position,out hit, Vector3.Distance(connect2.transform.position, iObj.transform.position), LayerMask.GetMask("Attachable Object","Ground"));
+            if (hit.transform != iObj.transform)
+            {
+                Debug.Log($"Connect Failed! {hit.transform.name} is in the way");
+                return false;
+            }
+            */ 
+            clickPos1= iClickPos;
             connect1 = iObj;
+            return true;
         }
         else
         {
+            /*
+             * Check if blocked
+            RaycastHit hit;
+            Physics.Raycast(connect1.transform.position, iObj.transform.position - connect1.transform.position, out hit, Vector3.Distance(connect1.transform.position, iObj.transform.position), LayerMask.GetMask("Attachable Object", "Ground"));
+            if (hit.transform != iObj.transform)
+            {
+                Debug.Log($"Connect Failed! {hit.transform.name} is in the way");
+                return false;
+            }
+            */
             clickPos2 = iClickPos;
             connect2 = iObj;
+            return true;
         }
     }
 
