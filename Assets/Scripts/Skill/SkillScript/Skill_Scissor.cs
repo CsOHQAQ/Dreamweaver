@@ -9,6 +9,7 @@ public class Skill_Scissor : EquipSkillBase
         _detectLayers = new List<LayerMask>() {
             LayerMask.NameToLayer("Rope"),
             LayerMask.NameToLayer("Attachable Object"),
+            LayerMask.NameToLayer("Base Slot"),
         };
     }
     public override void OnEquip(PlayerController iPlayer)
@@ -38,8 +39,15 @@ public class Skill_Scissor : EquipSkillBase
             return true;
         }
 
-        
-              
+        BaseSlotController baseSlot = hit.transform.GetComponent<BaseSlotController>();
+        if (baseSlot)
+        {
+            Debug.Log($"Clicking at base slot: {hit.transform.gameObject.name}");
+            if (player.Inventory.HasPreservableObject())
+            {
+                player.Inventory.PlacePreservableObject(0, baseSlot.PlacePosition.position);
+            }
+        }
 
         return base.OnBeginUse(args);
     }

@@ -170,9 +170,7 @@ public class RopeObject : MonoBehaviour
         }
         if (connect2.Movable && connect2.GetComponent<Rigidbody>() != null)
         {
-            Debug.Log("Test Pull");
-                connect2.GetComponent<Rigidbody>().AddForce(direction * pullforce * Time.deltaTime);
-            
+            connect2.GetComponent<Rigidbody>().AddForce(direction * pullforce * Time.deltaTime);
         }
         else
         {
