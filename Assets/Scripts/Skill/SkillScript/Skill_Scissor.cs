@@ -8,7 +8,7 @@ public class Skill_Scissor : EquipSkillBase
     {
         _detectLayers = new List<LayerMask>() {
             LayerMask.NameToLayer("Rope"),
-            LayerMask.NameToLayer("Preservable Object"),
+            LayerMask.NameToLayer("Attachable Object"),
         };
     }
     public override void OnEquip(PlayerController iPlayer)
