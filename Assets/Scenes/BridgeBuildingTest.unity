@@ -10153,7 +10153,7 @@ GameObject:
   - component: {fileID: 8513859188405270215}
   - component: {fileID: 8513859188405270214}
   m_Layer: 8
-  m_Name: Cylinder.001
+  m_Name: Gear_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10172,11 +10172,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Movable: 1
-  Sockets: []
+  Sockets:
+  - {fileID: 6738450969018189095}
   isCalledCollisionCallBack: 0
   IsRunning: 1
   RotateSpeed: 0
   PullForce: 0
+  PullSpeed: 0
 --- !u!114 &8513859188405270215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10189,8 +10191,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b8d96e0ee96924189001f3aae44060, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 
-  originalPos: {fileID: 0}
+  id: 0
+  originalPos: {fileID: 6738450969018189095}
 --- !u!33 &8542036704723855410
 MeshFilter:
   m_ObjectHideFlags: 0

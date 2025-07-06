@@ -13,7 +13,7 @@ public class RopeObject : MonoBehaviour
     [SerializeField]
     float debug_CurLength;
     LineRenderer line;
-    AttachableObject connect1=null, connect2=null;
+    AttachableObject connect1 = null, connect2 = null;
 
 
     Vector3 clickPos1, clickPos2;
@@ -86,13 +86,13 @@ public class RopeObject : MonoBehaviour
         if (isPulling)
         {
             //Check gear
-            AO_Gear gear=null;
-            if(connect1 is AO_Gear)
-                gear= (AO_Gear)connect1;
-            else if(connect2 is AO_Gear)
-                gear= (AO_Gear)connect2;
+            AO_Gear gear = null;
+            if (connect1 is AO_Gear gear2)
+                gear = gear2;
+            else if (connect2 is AO_Gear gear1)
+                gear = gear1;
 
-            if (gear!=null)
+            if (gear != null)
             {
                 if (gear.IsRunning)
                     Pull(gear.PullForce);
