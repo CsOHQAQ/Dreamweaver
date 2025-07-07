@@ -8,20 +8,20 @@ using UnityEngine;
 /// </summary>
 public class PrefabDebug : MonoBehaviour
 {
-    public Transform originalTransform;
+    // public Transform originalTransform;
     // Start is called before the first frame update
     void Start()
     {
-
+        transform.forward = Vector3.forward;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Debug.Log($"{gameObject.name} is now returning to original pos");
-            gameObject.transform.position = originalTransform.position;
-        }
+        // if (Input.GetKeyDown(KeyCode.R))
+        // {
+        //     Debug.Log($"{gameObject.name} is now returning to original pos");
+        //     gameObject.transform.position = originalTransform.position;
+        // }
     }
 }
