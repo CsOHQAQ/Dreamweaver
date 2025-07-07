@@ -8,7 +8,7 @@ public class AO_PullLever : AttachableObject
     public override void OnPulled()
     {
         base.OnPulled();
-
+        if (platform.enabled == false) return;
         platform.IsPulling = true;
 
     }

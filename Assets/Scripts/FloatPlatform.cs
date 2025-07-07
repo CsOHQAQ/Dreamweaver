@@ -58,7 +58,7 @@ public class FloatPlatform : MonoBehaviour
         IsPulling = false;
     }
 
-    void StepForward()
+    protected void StepForward()
     {
         if(RouteTransforms.Count==0)
             return;
@@ -70,6 +70,7 @@ public class FloatPlatform : MonoBehaviour
         {
             currentStation = RouteTransforms.Count-1;
             Platform.position = RouteTransforms[currentStation].position;
+            enabled = false;
             return;
         }
         else
