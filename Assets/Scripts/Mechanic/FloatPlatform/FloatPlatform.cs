@@ -13,7 +13,7 @@ public class FloatPlatform : MonoBehaviour
     public bool DEBUG_ShowRoute;
     [Header("Debug")]
     [SerializeField]
-    private int currentStation=-1;
+    protected int currentStation = -1;
 
     // Start is called before the first frame update
     void Start()
@@ -58,7 +58,7 @@ public class FloatPlatform : MonoBehaviour
         IsPulling = false;
     }
 
-    protected void StepForward()
+    protected virtual void StepForward()
     {
         if(RouteTransforms.Count==0)
             return;
@@ -70,7 +70,6 @@ public class FloatPlatform : MonoBehaviour
         {
             currentStation = RouteTransforms.Count-1;
             Platform.position = RouteTransforms[currentStation].position;
-            enabled = false;
             return;
         }
         else
