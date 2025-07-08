@@ -160,8 +160,8 @@ public class RopeObject : MonoBehaviour
         if (pullforce == -1)
             pullforce = PullForce;
 
-        connect1.OnPulled();
-        connect2.OnPulled();
+        connect1.OnPulled(pullforce);
+        connect2.OnPulled(pullforce);
 
         Vector3 direction = (connect1.GetClosestSocket(clickPos1).position - connect2.GetClosestSocket(clickPos2).position).normalized;
         if (connect1.Movable&& connect1.GetComponent<Rigidbody>()!=null)

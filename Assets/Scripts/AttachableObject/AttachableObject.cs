@@ -68,9 +68,9 @@ public class AttachableObject : MonoBehaviour
         }
     }
 
-    public virtual void OnPulled()
+    public virtual void OnPulled(float force = 0)
     {
-
+        Debug.Log($"Current pull force on {gameObject.name} is: {force}");
     }
 
     protected virtual void CollisionEvent(AttachableObject other)

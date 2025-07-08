@@ -5,10 +5,11 @@ using UnityEngine;
 public class AO_PullLever : AttachableObject
 {
     public FloatPlatform platform;
-    public override void OnPulled()
+    [SerializeField] private float forceThreshold = 0;
+    public override void OnPulled(float force = 0)
     {
         base.OnPulled();
-        if (platform.enabled == false) return;
+        if (platform.enabled == false || force < forceThreshold) return;
         platform.IsPulling = true;
 
     }
