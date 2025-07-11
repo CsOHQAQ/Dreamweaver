@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+// using System.Numerics;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class FP_HingeDoor : FloatPlatform
@@ -8,37 +10,34 @@ public class FP_HingeDoor : FloatPlatform
     public float openAngle = 90.0f;
     public float closeAngle = 0f;
 
-    [Header("Rotation Speed")]
-    public float rotationSpeed = 5f;
-
     // private float targetAngle => IsPulling ? openAngle : closeAngle;
     private float currentAngle;
+    private Vector3 originalRotation;
 
     void Start()
     {
-        currentAngle = transform.localEulerAngles.y;
+        currentAngle = Platform.localEulerAngles.y;
+        originalRotation = Platform.localEulerAngles;
     }
 
     protected override void StepForward()
     {
-        // base.StepForward();
-        float currY = NormalizeAngle(transform.localEulerAngles.y);
+        float currY = NormalizeAngle(Platform.localEulerAngles.y);
         float angleDiff = Mathf.Abs(Mathf.DeltaAngle(currY, openAngle));
         if (angleDiff < 1f) return;
 
-        float desireY = Mathf.MoveTowardsAngle(currY, openAngle, rotationSpeed * Time.deltaTime);
-        transform.localRotation = Quaternion.Euler(0f, desireY, 0f);
+        float desireY = Mathf.MoveTowardsAngle(currY, openAngle, MoveSpeed * Time.deltaTime);
+        Platform.localRotation = Quaternion.Euler(originalRotation.x, desireY, originalRotation.z);
     }
 
     protected override void StepBackward()
     {
-        // base.StepBackward();
-        float currY = NormalizeAngle(transform.localEulerAngles.y);
+        float currY = NormalizeAngle(Platform.localEulerAngles.y);
         float angleDiff = Mathf.Abs(Mathf.DeltaAngle(currY, closeAngle));
         if (angleDiff < 1f) return;
 
-        float desireY = Mathf.MoveTowardsAngle(currY, closeAngle, rotationSpeed * Time.deltaTime);
-        transform.localRotation = Quaternion.Euler(0f, desireY, 0f);
+        float desireY = Mathf.MoveTowardsAngle(currY, closeAngle, MoveSpeed * Time.deltaTime);
+        Platform.localRotation = Quaternion.Euler(originalRotation.x, desireY, originalRotation.z);
     }
 
     private float NormalizeAngle(float angle)
