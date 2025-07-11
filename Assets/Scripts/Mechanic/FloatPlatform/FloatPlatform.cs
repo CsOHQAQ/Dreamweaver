@@ -9,7 +9,7 @@ public class FloatPlatform : MonoBehaviour
     public float MoveSpeed;
     public Transform Platform;
     public List<Transform> RouteTransforms;
-    public bool IsPulling;
+    public bool IsPulling = false;
     public bool DEBUG_ShowRoute;
     [Header("Debug")]
     [SerializeField]
@@ -86,7 +86,7 @@ public class FloatPlatform : MonoBehaviour
         }
 
     }
-    void StepBackward() 
+    protected virtual void StepBackward() 
     {
         if (RouteTransforms.Count == 0)
             return;
