@@ -14,10 +14,11 @@ public class RopeObject : MonoBehaviour
     float debug_CurLength;
     LineRenderer line;
     AttachableObject connect1=null, connect2=null;
-
-
     Vector3 clickPos1, clickPos2;
+
+
     public float PullForce;
+    public float MaxSpeed = 0.5f;
     private Action DestoryCallback;
     private CapsuleCollider capCollider;
 
@@ -147,7 +148,7 @@ public class RopeObject : MonoBehaviour
         }
     }
 
-    public void Pull(float pullforce = -1)
+    public void Pull_Force(float pullforce = -1)
     {
         if (pullforce == -1)
             pullforce = PullForce;
@@ -179,6 +180,56 @@ public class RopeObject : MonoBehaviour
                         player.GetGroundObject().GetComponent<Rigidbody>().AddForce(direction * pullforce * Time.deltaTime);
                     }
                         
+                }
+            }
+
+        }
+    }
+    /// <summary>
+    /// This is by changing object's speed to achieve
+    /// pullforce/10=max mass movable
+    /// </summary>
+    /// <param name="pullforce"></param>
+    public void Pull(float pullforce=-1)
+    {
+
+        if (pullforce == -1)
+            pullforce = PullForce;
+
+        connect1.OnPulled();
+        connect2.OnPulled();
+
+        Vector3 direction = (connect1.GetClosestSocket(clickPos1).position - connect2.GetClosestSocket(clickPos2).position).normalized;
+        if (connect1.Movable && connect1.GetComponent<Rigidbody>() != null)
+        {
+            Rigidbody rb1= connect1.GetComponent<Rigidbody>();
+            if (rb1.mass <= pullforce / 10)
+            {
+                rb1.velocity = Vector3.MoveTowards(rb1.velocity,(connect2.transform.position-connect1.transform.position).normalized*MaxSpeed,pullforce/rb1.mass*Time.deltaTime);
+            }
+            
+        }
+        if (connect2.Movable && connect2.GetComponent<Rigidbody>() != null)
+        {
+            Rigidbody rb2 = connect2.GetComponent<Rigidbody>();
+            if (rb2.mass <= pullforce / 10)
+            {
+                rb2.velocity = Vector3.MoveTowards(rb2.velocity, (connect1.transform.position - connect2.transform.position).normalized * MaxSpeed, pullforce / rb2.mass * Time.deltaTime);
+            }
+        }
+        else
+        {
+            if (connect2.tag == "Player")
+            {
+                PlayerController player = connect2.GetComponent<PlayerController>();
+                if (player.GetGroundObject() != null)
+                {
+                    if (player.GetGroundObject().GetComponent<Rigidbody>() != null)
+                    {
+                        Rigidbody rb2 = player.GetGroundObject().GetComponent<Rigidbody>();
+                        rb2.velocity = Vector3.MoveTowards(rb2.velocity, (connect1.transform.position - connect2.transform.position).normalized * MaxSpeed, pullforce / rb2.mass * Time.deltaTime);
+                    }
+
                 }
             }
 

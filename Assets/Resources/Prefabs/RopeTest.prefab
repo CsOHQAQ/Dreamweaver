@@ -154,7 +154,8 @@ MonoBehaviour:
   isMoving: 0
   isPulling: 0
   debug_CurLength: 0
-  PullForce: 100
+  PullForce: 35
+  MaxSpeed: 1
 --- !u!54 &2345314775680732661
 Rigidbody:
   m_ObjectHideFlags: 0

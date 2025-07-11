@@ -26,6 +26,8 @@ public class AO_Summon : AttachableObject
         AO_Summon test= other as AO_Summon;
         if (test==null)
         {
+            isCalledCollisionCallBack = false;
+            other.isCalledCollisionCallBack = false;
             return;
         }
 
