@@ -13,7 +13,7 @@ public class RopeObject : MonoBehaviour
     [SerializeField]
     float debug_CurLength;
     LineRenderer line;
-    AttachableObject connect1=null, connect2=null;
+    AttachableObject connect1 = null, connect2 = null;
     Vector3 clickPos1, clickPos2;
 
 
@@ -27,7 +27,10 @@ public class RopeObject : MonoBehaviour
         Speed = iSpeed;
         MaxLength = iLength;
         clickPos2 = iClickPos2;
+        connect1 = iConnect1;
+        connect1.RopeObjectSetUp(this);
         connect2 = iConnect2;
+        connect2.RopeObjectSetUp(this);
         DestoryCallback = iCallback;
         capCollider = GetComponentInChildren<CapsuleCollider>();
         line = GetComponent<LineRenderer>();
@@ -84,13 +87,13 @@ public class RopeObject : MonoBehaviour
         if (isPulling)
         {
             //Check gear
-            AO_Gear gear=null;
-            if(connect1 is AO_Gear)
-                gear= (AO_Gear)connect1;
-            else if(connect2 is AO_Gear)
-                gear= (AO_Gear)connect2;
+            AO_Gear gear = null;
+            if (connect1 is AO_Gear gear2)
+                gear = gear2;
+            else if (connect2 is AO_Gear gear1)
+                gear = gear1;
 
-            if (gear!=null)
+            if (gear != null)
             {
                 if (gear.IsRunning)
                     Pull(gear.PullForce);
@@ -112,9 +115,14 @@ public class RopeObject : MonoBehaviour
         yield return null;
     }
 
-    public bool SetConnect(bool isConnect1,Vector3 iClickPos, AttachableObject iObj)
+    public void InstantBreak()
     {
-        if (isConnect1) 
+        Destroy(gameObject);
+    }
+
+    public bool SetConnect(bool isConnect1, Vector3 iClickPos, AttachableObject iObj)
+    {
+        if (isConnect1)
         {
             /*
              * Check if blocked
@@ -153,8 +161,8 @@ public class RopeObject : MonoBehaviour
         if (pullforce == -1)
             pullforce = PullForce;
 
-        connect1.OnPulled();
-        connect2.OnPulled();
+        connect1.OnPulled(pullforce);
+        connect2.OnPulled(pullforce);
 
         Vector3 direction = (connect1.GetClosestSocket(clickPos1).position - connect2.GetClosestSocket(clickPos2).position).normalized;
         if (connect1.Movable&& connect1.GetComponent<Rigidbody>()!=null)
@@ -163,10 +171,7 @@ public class RopeObject : MonoBehaviour
         }
         if (connect2.Movable && connect2.GetComponent<Rigidbody>() != null)
         {
-            //if(!(connect2.tag == "Player"))
-            Debug.Log("Test Pull");
-                connect2.GetComponent<Rigidbody>().AddForce(direction * pullforce * Time.deltaTime);
-            
+            connect2.GetComponent<Rigidbody>().AddForce(direction * pullforce * Time.deltaTime);
         }
         else
         {
@@ -239,6 +244,10 @@ public class RopeObject : MonoBehaviour
     public void OnDestroy()
     {
         Debug.Log("Rope starting to destory");
+        connect1.RopeObjectUnset();
+        connect2.RopeObjectUnset();
+        connect1 = null;
+        connect2 = null;
         DestoryCallback();
     }
 

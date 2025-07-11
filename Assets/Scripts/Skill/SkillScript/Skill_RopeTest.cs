@@ -39,8 +39,7 @@ public class Skill_RopeTest : EquipSkillBase
         }
         RaycastHit hit = (RaycastHit)args;
 
-        AttachableObject obj = hit.transform.GetComponent<AttachableObject>();
-        if (obj == null)
+        if (!hit.transform.TryGetComponent<AttachableObject>(out var obj))
             return false;
 
         //Face direction judge
@@ -90,9 +89,13 @@ public class Skill_RopeTest : EquipSkillBase
 
 
             case Stage.OneSide:
-                if (!ropeObject.isMoving)
-                {                    
-                    if(ropeObject.SetConnect(false, hit.point, obj.GetComponent<AttachableObject>()))
+                if (obj.GetComponent<Door>() != null)
+                {
+                    
+                }
+                else if (!ropeObject.isMoving)
+                {
+                    if (ropeObject.SetConnect(false, hit.point, obj.GetComponent<AttachableObject>()))
                     {
                         ropeObject.isMoving = true;
                         ropeObject.isPulling = true;
@@ -103,7 +106,7 @@ public class Skill_RopeTest : EquipSkillBase
                     {
                         return false;
                     }
-                    
+
                 }
                 break;
             case Stage.BothSide:

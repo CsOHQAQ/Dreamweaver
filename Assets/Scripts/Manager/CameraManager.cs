@@ -23,14 +23,9 @@ public class CameraManager : BaseManager<CameraManager>
 
     [Tooltip("The Camera Transition speed")]
     [SerializeField][Range(0f, 10f)] private float moveSpeed = 1.0f;
-    [SerializeField] private GameObject currLookAt;
-
-    private Coroutine blendingCoroutine = null;
-
 
     void Start()
     {
-        currLookAt.SetActive(false);
         currentCamera = camera1;
         currentCameraConfig = topdownCameraConfig; // Default camera config
         ApplyCameraConfig(camera1, topdownCameraConfig); // Set initial camera type

@@ -18,7 +18,7 @@ public class Button_WeightTrigger : MonoBehaviour
 
     private void Update()
     {
-        if (curWeight >=TriggerWeight) 
+        if (curWeight >= TriggerWeight) 
         {
             DemoDoor.Open();
         }

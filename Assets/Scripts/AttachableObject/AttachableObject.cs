@@ -6,10 +6,10 @@ using UnityEngine.Rendering.UI;
 
 public class AttachableObject : MonoBehaviour
 {
-    public bool Movable=true;
+    public bool Movable = true;
     public List<Transform> Sockets;
     [HideInInspector]
-    public bool isCalledCollisionCallBack=false;
+    public bool isCalledCollisionCallBack = false;
 
     protected CollisionEventType _collisionEventType = CollisionEventType.None;
     public CollisionEventType colEvent
@@ -22,7 +22,7 @@ public class AttachableObject : MonoBehaviour
     public enum CollisionEventType
     {
         None,
-        summon, 
+        summon,
 
     }
 
@@ -30,13 +30,13 @@ public class AttachableObject : MonoBehaviour
     {
         if (Sockets.Count == 0)
         {
-            Debug.Log($"{gameObject.name}没有可用的socket");
+            Debug.Log($"{gameObject.name}没锟叫匡拷锟矫碉拷socket");
             return null;
         }
         Transform socket = Sockets[0];
         float distance = 19260817;
 
-        foreach (Transform t in socket.transform) 
+        foreach (Transform t in socket.transform)
         {
             if (Vector3.Distance(t.position, iPos) <= distance)
             {
@@ -46,34 +46,37 @@ public class AttachableObject : MonoBehaviour
         }
         return socket;
     }
-     
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        var ao=collision.gameObject.GetComponent<AttachableObject>();
+        var ao = collision.gameObject.GetComponent<AttachableObject>();
         if (ao != null)
         {
             CollisionEvent(ao);
         }
     }
 
-    public virtual void OnPulled()
+    public virtual void OnPulled(float force = 0)
     {
-
+        Debug.Log($"Current pull force on {gameObject.name} is: {force}");
     }
 
     protected virtual void CollisionEvent(AttachableObject other)
     {
     }
+
+    public virtual void RopeObjectSetUp(RopeObject rope) { }
+    public virtual void RopeObjectUnset() { }
 }

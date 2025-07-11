@@ -8,6 +8,7 @@ TagManager:
   - Triggerable
   - Rune
   - Portal
+  - BridgeTrigger
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Attachable Object
   - Dream Body
   - Passable Wall
-  - 
+  - Base Slot
   - 
   - 
   - 

@@ -8,6 +8,8 @@ public class Skill_Scissor : EquipSkillBase
     {
         _detectLayers = new List<LayerMask>() {
             LayerMask.NameToLayer("Rope"),
+            LayerMask.NameToLayer("Attachable Object"),
+            LayerMask.NameToLayer("Base Slot"),
         };
     }
     public override void OnEquip(PlayerController iPlayer)
@@ -16,20 +18,36 @@ public class Skill_Scissor : EquipSkillBase
     }
     public override bool OnBeginUse(object args = null)
     {
-        if (args == null)
+        if (args == null) { return false; }
+
+        RaycastHit hit = (RaycastHit)args;
+
+        RopeObject rope = hit.transform.GetComponent<RopeObject>();
+        if (rope)
         {
-            return false;
+            Debug.Log($"Scissor Detect:{rope.gameObject}");
+            rope.InstantBreak(); 
+            return true;
         }
 
-        RopeObject rope= ((RaycastHit)args).transform.GetComponent<RopeObject>();
-        if (rope == null)
+        PreservableObject preservable = hit.transform.GetComponent<PreservableObject>();
+        if (preservable)
         {
-            return false;
+            Debug.Log($"Preserving Object: {preservable.name}");
+            player.Inventory.AddPreservableObject(preservable);
+            preservable.OnPreserved();
+            return true;
         }
 
-        
-        Debug.Log($"Scissor Detect:{rope.gameObject}");
-        GameObject.Destroy(rope.gameObject);        
+        BaseSlotController baseSlot = hit.transform.GetComponent<BaseSlotController>();
+        if (baseSlot)
+        {
+            Debug.Log($"Clicking at base slot: {hit.transform.gameObject.name}");
+            if (player.Inventory.HasPreservableObject())
+            {
+                player.Inventory.PlacePreservableObject(0, baseSlot.PlacePosition.position);
+            }
+        }
 
         return base.OnBeginUse(args);
     }
