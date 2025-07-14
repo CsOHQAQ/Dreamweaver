@@ -9,6 +9,7 @@ TagManager:
   - Rune
   - Portal
   - BridgeTrigger
+  - ScissorTrigger
   layers:
   - Default
   - TransparentFX

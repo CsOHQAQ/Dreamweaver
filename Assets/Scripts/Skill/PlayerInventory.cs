@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerInventory : MonoBehaviour
 {
     [SerializeField] private List<PreservableObject> preservedObjects = new();
+    public bool obtainPreserve = false;
 
     public void AddPreservableObject(PreservableObject preservable)
     {
@@ -28,7 +29,11 @@ public class PlayerInventory : MonoBehaviour
         obj.transform.position = position;
         obj.gameObject.SetActive(true);
     }
-    
+
     public bool HasPreservableObject() => preservedObjects.Count > 0;
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("ScissorTrigger")) obtainPreserve = true;
+    }
 }

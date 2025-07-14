@@ -31,7 +31,7 @@ public class Skill_Scissor : EquipSkillBase
         }
 
         PreservableObject preservable = hit.transform.GetComponent<PreservableObject>();
-        if (preservable)
+        if (player.Inventory.obtainPreserve && preservable)
         {
             Debug.Log($"Preserving Object: {preservable.name}");
             player.Inventory.AddPreservableObject(preservable);
@@ -40,7 +40,7 @@ public class Skill_Scissor : EquipSkillBase
         }
 
         BaseSlotController baseSlot = hit.transform.GetComponent<BaseSlotController>();
-        if (baseSlot)
+        if (player.Inventory.obtainPreserve && baseSlot)
         {
             Debug.Log($"Clicking at base slot: {hit.transform.gameObject.name}");
             if (player.Inventory.HasPreservableObject())
