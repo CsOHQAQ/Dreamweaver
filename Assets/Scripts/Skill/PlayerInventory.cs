@@ -18,7 +18,7 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     /// <param name="index">object index in the array, TODO: we can change to using object ID later</param>
     /// <param name="position">The position that we need to place the object</param>
-    public void PlacePreservableObject(int index, Vector3 position)
+    public void PlacePreservableObject(int index, Vector3 position,Transform parent=null)
     {
         if (index < 0 || index >= preservedObjects.Count) return;
 
@@ -26,6 +26,11 @@ public class PlayerInventory : MonoBehaviour
         preservedObjects.RemoveAt(index);
 
         obj.transform.position = position;
+        if (parent != null)
+        {
+            obj.transform.parent = parent;
+
+        }
         obj.gameObject.SetActive(true);
     }
     

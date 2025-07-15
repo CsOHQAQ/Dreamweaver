@@ -45,7 +45,7 @@ public class Skill_Scissor : EquipSkillBase
             Debug.Log($"Clicking at base slot: {hit.transform.gameObject.name}");
             if (player.Inventory.HasPreservableObject())
             {
-                player.Inventory.PlacePreservableObject(0, baseSlot.PlacePosition.position);
+                player.Inventory.PlacePreservableObject(0, baseSlot.PlacePosition.position,baseSlot.transform);
             }
         }
 
