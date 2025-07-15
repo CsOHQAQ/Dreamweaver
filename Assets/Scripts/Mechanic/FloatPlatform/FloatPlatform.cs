@@ -6,6 +6,8 @@ using UnityEngine;
 public class FloatPlatform : MonoBehaviour
 {
     public bool IsLocked;
+    public float CD;
+    float curCDCount;
     public float MoveSpeed;
     public Transform Platform;
     public List<Transform> RouteTransforms;
@@ -47,10 +49,16 @@ public class FloatPlatform : MonoBehaviour
         {
             if (!IsPulling)//Return to startPoint;
             {
-                StepBackward();
+                if (curCDCount > CD)
+                {
+                    StepBackward();
+                }
+                curCDCount += Time.deltaTime;
+
             }
             else
             {
+                curCDCount = 0;
                 StepForward();
             }
         }
