@@ -113,7 +113,7 @@ public class FloatPlatform : MonoBehaviour
             }
             else
             {
-                Platform.position = Vector3.MoveTowards(Platform.position, RouteTransforms[currentStation].position, MoveSpeed * Time.deltaTime);
+                Platform.position = Vector3.MoveTowards(Platform.position, RouteTransforms[currentStation].position, MoveSpeed * 0.1f * Time.deltaTime);
             }
         }
     }

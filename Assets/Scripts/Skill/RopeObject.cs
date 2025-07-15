@@ -54,9 +54,11 @@ public class RopeObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(connect1==null||connect2==null)
+        if(connect1 == null || connect2 == null
+            || !connect1.isActiveAndEnabled
+            || !connect2.isActiveAndEnabled)
         {
-            Destroy(gameObject);
+            InstantBreak();
             return;
         }
 
@@ -117,7 +119,7 @@ public class RopeObject : MonoBehaviour
     {
         Debug.Log("Rope Wait for dying");
         yield return new WaitForSeconds(time);
-        GameObject.Destroy(gameObject);
+        Destroy(gameObject);
         yield return null;
     }
 
