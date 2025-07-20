@@ -2212,20 +2212,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 726136113}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43c59a9e0d9dc45429ab3d909c4027bf, type: 3}
+  m_Script: {fileID: 11500000, guid: e6d904ad0acfb024abe14d05da160746, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DetectObject: {fileID: 1466407861}
-  ActivateOnEnter:
-  - {fileID: 2321212}
-  - {fileID: 29565673}
-  - {fileID: 1847377071}
-  DeactivateOnEnter: []
-  ActivateOnLeave: []
-  DeactivateOnLeave:
-  - {fileID: 2321212}
-  - {fileID: 29565673}
-  - {fileID: 1847377071}
+  EnterTriggerEvent: []
+  StayTriggerEvent: []
+  ExitTriggerEvent: []
+  DetectLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  DetectObject: {fileID: 0}
+  IsOneTimeTrigger: 0
 --- !u!1 &732120733
 GameObject:
   m_ObjectHideFlags: 0
@@ -3594,6 +3591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   preservedObjects: []
+  obtainPreserve: 1
 --- !u!1 &1154211106
 GameObject:
   m_ObjectHideFlags: 0
@@ -3953,6 +3951,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsLocked: 0
+  CD: 3
+  AutoReturn: 0
   MoveSpeed: 3
   Platform: {fileID: 1798450250}
   RouteTransforms:
@@ -4935,6 +4935,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsLocked: 0
+  CD: 3
+  AutoReturn: 0
   MoveSpeed: 3
   Platform: {fileID: 258579249}
   RouteTransforms:

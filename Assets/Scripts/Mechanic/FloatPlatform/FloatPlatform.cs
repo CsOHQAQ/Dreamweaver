@@ -7,6 +7,7 @@ public class FloatPlatform : MonoBehaviour
 {
     public bool IsLocked;
     public float CD;
+    public bool AutoReturn;
     float curCDCount;
     public float MoveSpeed;
     public Transform Platform;
@@ -49,12 +50,14 @@ public class FloatPlatform : MonoBehaviour
         {
             if (!IsPulling)//Return to startPoint;
             {
-                if (curCDCount > CD)
+                if (AutoReturn)
                 {
-                    StepBackward();
+                    if (curCDCount > CD)
+                    {
+                        StepBackward();
+                    }
+                    curCDCount += Time.deltaTime;
                 }
-                curCDCount += Time.deltaTime;
-
             }
             else
             {
@@ -62,8 +65,8 @@ public class FloatPlatform : MonoBehaviour
                 StepForward();
             }
         }
-
-        IsPulling = false;
+        if(!AutoReturn) 
+            IsPulling = false;
     }
 
     protected virtual void StepForward()
@@ -113,7 +116,7 @@ public class FloatPlatform : MonoBehaviour
             }
             else
             {
-                Platform.position = Vector3.MoveTowards(Platform.position, RouteTransforms[currentStation].position, MoveSpeed * 0.1f * Time.deltaTime);
+                Platform.position = Vector3.MoveTowards(Platform.position, RouteTransforms[currentStation].position, MoveSpeed  * Time.deltaTime);
             }
         }
     }

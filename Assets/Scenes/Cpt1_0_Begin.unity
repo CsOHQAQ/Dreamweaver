@@ -4171,6 +4171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsLocked: 0
   CD: 0
+  AutoReturn: 0
   MoveSpeed: 3
   Platform: {fileID: 258579249}
   RouteTransforms:
@@ -4457,8 +4458,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6d904ad0acfb024abe14d05da160746, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerEvent:
+  EnterTriggerEvent:
   - {fileID: 668090493}
+  StayTriggerEvent: []
+  ExitTriggerEvent: []
   DetectLayer:
     serializedVersion: 2
     m_Bits: 0
