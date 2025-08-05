@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AO_PullLever : AttachableObject
 {
-    public List< FloatPlatform> platforms;
+    public List<FloatPlatform> platforms;
     [SerializeField] private float forceThreshold = 0;
     public override void OnPulled(float force = 0)
     {
@@ -14,6 +14,15 @@ public class AO_PullLever : AttachableObject
         {
             if (platform.enabled == false || force < forceThreshold) continue;
             platform.IsPulling = true;
+        }
+    }
+
+    public override void RopeObjectUnset()
+    {
+        foreach (var platform in platforms)
+        {
+            if (platform.enabled == false) continue;
+            platform.IsPulling = false;
         }
     }
 }
